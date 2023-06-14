@@ -4,8 +4,8 @@ export default function Create() {
     return (
         <View style={styles.container}>
             <View style={styles.main}>
-                <Text style={styles.title}>Posts</Text>
-                <Text style={styles.subtitle}>This is the first page of your app.</Text>
+                <Text style={styles.title}>Create</Text>
+                <Text style={styles.subtitle}>Create a new post.</Text>
             </View>
         </View>
     );
