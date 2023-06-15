@@ -21,7 +21,7 @@ export default function Avatar({ userId }) {
                 <Image style={styles.avatarImage} source={{ uri: user.image }} />
             </View>
             <Text style={styles.avatarName}>{user.name}</Text>
-            <Ionicons style={styles.dots} name="ellipsis-horizontal-outline" size={24} color="#264c59" />
+            <Ionicons style={styles.dots} name="ellipsis-horizontal" size={28} color="#264c59" />
         </View>
     );
 }
