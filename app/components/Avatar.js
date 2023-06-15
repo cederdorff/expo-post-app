@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { View, Image, StyleSheet, Text } from "react-native";
+import { Image, StyleSheet, Text, View } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function Avatar({ userId }) {
     const [user, setUser] = useState([]);
@@ -15,22 +16,23 @@ export default function Avatar({ userId }) {
     }, [userId]);
 
     return (
-        <View style={styles.userAvatar}>
-            <View style={styles.avatarContainer}>
+        <View style={styles.avatarContainer}>
+            <View style={styles.avatarImageContainer}>
                 <Image style={styles.avatarImage} source={{ uri: user.image }} />
             </View>
             <Text style={styles.avatarName}>{user.name}</Text>
+            <Ionicons style={styles.dots} name="ellipsis-horizontal-outline" size={24} color="#264c59" />
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-    userAvatar: {
+    avatarContainer: {
         alignItems: "center",
         flexDirection: "row",
         padding: 8
     },
-    avatarContainer: {
+    avatarImageContainer: {
         alignItems: "center",
         borderRadius: 55 / 2,
         borderWidth: 3,
@@ -50,5 +52,9 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: "bold",
         marginRight: 12
+    },
+    dots: {
+        position: "absolute",
+        right: 10
     }
 });
