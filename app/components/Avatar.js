@@ -7,7 +7,7 @@ export default function Avatar({ userId }) {
 
     useEffect(() => {
         async function getUser() {
-            const response = await fetch(`https://post-rest-api-default-rtdb.firebaseio.com/users/${userId}.json`);
+            const response = await fetch(`https://expo-post-app-default-rtdb.firebaseio.com/users/${userId}.json`);
             const data = await response.json();
             console.log(data);
             setUser(data);
@@ -20,7 +20,10 @@ export default function Avatar({ userId }) {
             <View style={styles.avatarImageContainer}>
                 <Image style={styles.avatarImage} source={{ uri: user.image }} />
             </View>
-            <Text style={styles.avatarName}>{user.name}</Text>
+            <View>
+                <Text style={styles.avatarName}>{user.name}</Text>
+                <Text style={styles.avatarTitle}>{user.title}</Text>
+            </View>
             <Ionicons style={styles.dots} name="ellipsis-horizontal" size={28} color="#264c59" />
         </View>
     );
@@ -50,8 +53,12 @@ const styles = StyleSheet.create({
         width: 45
     },
     avatarName: {
-        fontSize: 18,
+        fontSize: 17,
         fontWeight: "bold",
+        marginRight: 12
+    },
+    avatarTitle: {
+        fontSize: 13,
         marginRight: 12
     },
     dots: {
