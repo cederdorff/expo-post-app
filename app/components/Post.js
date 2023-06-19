@@ -2,11 +2,23 @@ import { Image, StyleSheet, Text, View } from "react-native";
 import Avatar from "./Avatar";
 
 export default function Post({ post }) {
+    function formatDate(timestamp) {
+        const createdAt = new Date(timestamp);
+        let month = createdAt.getMonth();
+        let date = createdAt.getDate();
+
+        month = month < 10 ? "0" + month : month;
+        date = date < 10 ? "0" + date : date;
+
+        return `${createdAt.getFullYear()}-${month}-${date}`;
+    }
+
     return (
         <View style={styles.postContainer}>
             <Avatar userId={post.uid} />
             <Image style={styles.postImage} source={{ uri: post.image }} />
-            <Text style={styles.postCaption}>{post.title}</Text>
+            <Text style={styles.postCaption}>{post.caption}</Text>
+            <Text style={styles.postDate}>{formatDate(post.createdAt)}</Text>
         </View>
     );
 }
@@ -15,14 +27,16 @@ const styles = StyleSheet.create({
     postContainer: {
         flex: 1,
         minHeight: 320,
-        paddingBottom: 20,
+        paddingBottom: 30,
         borderBottomColor: "#acc6c9",
         borderBottomWidth: 0.5
     },
     postCaption: {
         fontSize: 20,
-        paddingVertical: 20,
-        paddingHorizontal: 10
+        padding: 15
+    },
+    postDate: {
+        paddingHorizontal: 15
     },
     postImage: {
         aspectRatio: 1,
