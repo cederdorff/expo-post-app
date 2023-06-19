@@ -16,14 +16,14 @@ export default function Posts() {
         getPosts();
     }, []);
 
-    function renderPosts(item) {
+    function renderPost(item) {
         const post = item.item;
         return <Post post={post} />;
     }
 
     return (
         <View style={styles.list}>
-            <FlatList data={posts} renderItem={renderPosts} keyExtractor={post => post.id} />
+            <FlatList data={posts} renderItem={renderPost} keyExtractor={post => post.id} />
         </View>
     );
 }
