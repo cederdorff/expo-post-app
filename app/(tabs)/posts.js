@@ -7,9 +7,10 @@ export default function Posts() {
 
     useEffect(() => {
         async function getPosts() {
-            const response = await fetch("https://post-rest-api-default-rtdb.firebaseio.com/posts.json");
+            const response = await fetch("https://expo-post-app-default-rtdb.firebaseio.com/posts.json");
             const dataObj = await response.json();
             const postsArray = Object.keys(dataObj).map(key => ({ id: key, ...dataObj[key] })); // from object to array
+            postsArray.sort((postA, postB) => postB.createdAt - postA.createdAt); // sort by timestamp/ createdBy
             setPosts(postsArray);
         }
         getPosts();
