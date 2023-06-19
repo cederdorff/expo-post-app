@@ -38,6 +38,7 @@ export default function TabLayout() {
                 name="users"
                 options={{
                     title: "Users",
+                    headerShown: false,
                     tabBarActiveTintColor: "#264c59",
                     tabBarInactiveTintColor: "#fff",
                     tabBarActiveBackgroundColor: "#acc6c9",

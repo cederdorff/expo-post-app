@@ -1,29 +1,46 @@
 import { useEffect, useState } from "react";
-import { FlatList, Image, StyleSheet, Text, View } from "react-native";
+import { FlatList, RefreshControl, StyleSheet, View } from "react-native";
 import Post from "../components/Post";
 
 export default function Posts() {
     const [posts, setPosts] = useState([]);
+    const [refreshing, setRefreshing] = useState(false);
 
     useEffect(() => {
-        async function getPosts() {
-            const response = await fetch("https://expo-post-app-default-rtdb.firebaseio.com/posts.json");
-            const dataObj = await response.json();
-            const postsArray = Object.keys(dataObj).map(key => ({ id: key, ...dataObj[key] })); // from object to array
-            postsArray.sort((postA, postB) => postB.createdAt - postA.createdAt); // sort by timestamp/ createdBy
-            setPosts(postsArray);
-        }
         getPosts();
     }, []);
+
+    async function getPosts() {
+        const response = await fetch("https://expo-post-app-default-rtdb.firebaseio.com/posts.json");
+        const dataObj = await response.json();
+        const postsArray = Object.keys(dataObj).map(key => ({ id: key, ...dataObj[key] })); // from object to array
+        postsArray.sort((postA, postB) => postB.createdAt - postA.createdAt); // sort by timestamp/ createdBy
+        setPosts(postsArray);
+    }
 
     function renderPost(item) {
         const post = item.item;
         return <Post post={post} />;
     }
 
+    async function handleRefresh() {
+        setRefreshing(true);
+        await getPosts();
+        setTimeout(() => {
+            setRefreshing(false);
+        }, 500);
+    }
+
     return (
         <View style={styles.list}>
-            <FlatList data={posts} renderItem={renderPost} keyExtractor={post => post.id} />
+            <FlatList
+                data={posts}
+                renderItem={renderPost}
+                keyExtractor={post => post.id}
+                refreshControl={
+                    <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} tintColor="#264c59" />
+                }
+            />
         </View>
     );
 }

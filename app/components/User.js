@@ -1,17 +1,21 @@
 import { Ionicons } from "@expo/vector-icons";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { useRouter } from "expo-router";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 export default function User({ user }) {
+    const router = useRouter();
     return (
-        <View style={styles.userContainer}>
-            <View style={styles.userImageContainer}>
-                <Image style={styles.userImage} source={{ uri: user.image }} />
+        <TouchableOpacity onPress={() => router.push(`users/${user.id}`)}>
+            <View style={styles.userContainer}>
+                <View style={styles.userImageContainer}>
+                    <Image style={styles.userImage} source={{ uri: user.image }} />
+                </View>
+                <View>
+                    <Text style={styles.userName}>{user.name}</Text>
+                    <Text style={styles.userTitle}>{user.title}</Text>
+                </View>
+                <Ionicons style={styles.chevron} name="chevron-forward-outline" size={28} color="#264c59" />
             </View>
-            <View>
-                <Text style={styles.userName}>{user.name}</Text>
-                <Text style={styles.userTitle}>{user.title}</Text>
-            </View>
-            <Ionicons style={styles.chevron} name="chevron-forward-outline" size={28} color="#264c59" />
-        </View>
+        </TouchableOpacity>
     );
 }
 
