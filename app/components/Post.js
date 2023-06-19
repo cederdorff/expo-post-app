@@ -32,10 +32,11 @@ const styles = StyleSheet.create({
         borderBottomWidth: 0.5
     },
     postCaption: {
-        fontSize: 20,
+        fontSize: 22,
         padding: 15
     },
     postDate: {
+        fontSize: 15,
         paddingHorizontal: 15
     },
     postImage: {
