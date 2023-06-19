@@ -30,7 +30,8 @@ const styles = StyleSheet.create({
     avatarContainer: {
         alignItems: "center",
         flexDirection: "row",
-        padding: 8
+        paddingVertical: 8,
+        paddingHorizontal: 12
     },
     avatarImageContainer: {
         alignItems: "center",
