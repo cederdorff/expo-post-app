@@ -30,7 +30,6 @@ export default function Posts() {
 
 const styles = StyleSheet.create({
     list: {
-        backgroundColor: "RED",
         flex: 1
     }
 });
