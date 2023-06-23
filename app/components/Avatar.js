@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 
 export default function Avatar({ userId }) {
     const [user, setUser] = useState([]);
@@ -24,7 +23,6 @@ export default function Avatar({ userId }) {
                 <Text style={styles.avatarName}>{user.name}</Text>
                 <Text style={styles.avatarTitle}>{user.title}</Text>
             </View>
-            <Ionicons style={styles.dots} name="ellipsis-horizontal" size={28} color="#264c59" />
         </View>
     );
 }
@@ -60,9 +58,5 @@ const styles = StyleSheet.create({
     avatarTitle: {
         fontSize: 13,
         marginRight: 12
-    },
-    dots: {
-        position: "absolute",
-        right: 10
     }
 });
