@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
         flex: 1
     },
     userImage: {
-        height: 350
+        height: 275
     },
     userNameContainer: {
         paddingVertical: 16,
