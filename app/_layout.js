@@ -13,15 +13,15 @@ export default function AppLayout() {
                 <Stack>
                     <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
                     <Stack.Screen
-                        name="(modals)/create"
+                        name="(modals)/post-modal"
                         options={{
-                            title: "Create New Post",
+                            title: "Post Modal",
                             presentation: "modal",
                             headerTintColor: "#fff",
                             headerStyle: {
                                 backgroundColor: "#264c59"
                             },
-                            headerLeft: () => <Button title="Close" color="#fff" onPress={() => router.back()} />
+                            headerLeft: () => <Button title="Cancel" color="#fff" onPress={() => router.back()} />
                         }}
                     />
                 </Stack>

@@ -6,7 +6,7 @@ export default function TabLayout() {
     const router = useRouter();
 
     function showCreateModal() {
-        router.push("/create");
+        router.push("/post-modal");
     }
 
     return (

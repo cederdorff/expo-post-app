@@ -1,16 +1,20 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Alert, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Avatar from "./Avatar";
 import { Ionicons } from "@expo/vector-icons";
 import { useActionSheet } from "@expo/react-native-action-sheet";
+import { useRouter } from "expo-router";
 
-export default function Post({ post }) {
+export default function Post({ post, reload }) {
     const { showActionSheetWithOptions } = useActionSheet();
+    const API_URL = "https://expo-post-app-default-rtdb.firebaseio.com";
+    const router = useRouter();
 
     function formatDate(timestamp) {
         const createdAt = new Date(timestamp);
         let month = createdAt.getMonth();
         let date = createdAt.getDate();
 
+        month++;
         month = month < 10 ? "0" + month : month;
         date = date < 10 ? "0" + date : date;
 
@@ -30,15 +34,15 @@ export default function Post({ post }) {
                 title: "Edit Post"
             },
             selectedIndex => {
-                console.log(selectedIndex);
                 switch (selectedIndex) {
                     case 0:
-                        // Update User
-                        console.log("Update Post");
+                        // Update Post
+                        showUpdateModal();
                         break;
 
                     case destructiveButtonIndex:
-                        // Delete
+                        // Delete Post
+                        showDeleteDialog();
                         break;
 
                     case cancelButtonIndex:
@@ -46,6 +50,27 @@ export default function Post({ post }) {
                 }
             }
         );
+    }
+
+    function showUpdateModal() {
+        router.push({ pathname: "/post-modal", params: { id: post.id } });
+    }
+
+    function showDeleteDialog() {
+        Alert.alert("Delete Post", `Do you want to delete post '${post.caption}'?`, [
+            {
+                text: "No",
+                style: "destructive"
+            },
+            { text: "Yes", onPress: deletePost }
+        ]);
+    }
+
+    async function deletePost() {
+        const response = await fetch(`${API_URL}/posts/${post.id}.json`, { method: "DELETE" });
+        if (response.ok) {
+            reload();
+        }
     }
 
     return (
