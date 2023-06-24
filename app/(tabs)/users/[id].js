@@ -10,26 +10,27 @@ export default function UserDetails() {
     const [posts, setPosts] = useState([]);
 
     useEffect(() => {
-        async function getUser() {
-            const response = await fetch(`https://expo-post-app-default-rtdb.firebaseio.com/users/${id}.json`);
-            const data = await response.json();
-            console.log(data);
-            setUser(data);
-        }
-
-        async function getPosts() {
-            // fetch posts where uid is equal to userId prop
-            const response = await fetch(
-                `https://expo-post-app-default-rtdb.firebaseio.com/posts.json?orderBy="uid"&equalTo="${id}"`
-            );
-            const dataObj = await response.json();
-            const postsArray = Object.keys(dataObj).map(key => ({ id: key, ...dataObj[key] })); // from object to array
-            postsArray.sort((postA, postB) => postB.createdAt - postA.createdAt); // sort by timestamp/ createdBy
-            setPosts(postsArray);
-        }
         getUser();
         getPosts();
     }, [id]);
+
+    async function getUser() {
+        const response = await fetch(`https://expo-post-app-default-rtdb.firebaseio.com/users/${id}.json`);
+        const data = await response.json();
+        console.log(data);
+        setUser(data);
+    }
+
+    async function getPosts() {
+        // fetch posts where uid is equal to userId prop
+        const response = await fetch(
+            `https://expo-post-app-default-rtdb.firebaseio.com/posts.json?orderBy="uid"&equalTo="${id}"`
+        );
+        const dataObj = await response.json();
+        const postsArray = Object.keys(dataObj).map(key => ({ id: key, ...dataObj[key] })); // from object to array
+        postsArray.sort((postA, postB) => postB.createdAt - postA.createdAt); // sort by timestamp/ createdBy
+        setPosts(postsArray);
+    }
 
     return (
         <ScrollView>
@@ -45,7 +46,7 @@ export default function UserDetails() {
             <Image style={styles.userImage} source={{ uri: user?.image }} />
             <Text style={styles.postHeader}>Posts by {user?.name}</Text>
             {posts.map(post => (
-                <Post post={post} key={post.id} />
+                <Post post={post} key={post.id} reload={getPosts} />
             ))}
         </ScrollView>
     );
