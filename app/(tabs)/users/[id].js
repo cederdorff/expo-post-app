@@ -1,16 +1,13 @@
 import { Stack, useSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Image, StyleSheet, Text, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import Post from "../../components/Post";
-import { Ionicons } from "@expo/vector-icons";
-import { useActionSheet } from "@expo/react-native-action-sheet";
 
 export default function UserDetails() {
     const { id } = useSearchParams();
     const [user, setUser] = useState([]);
     const [posts, setPosts] = useState([]);
-    const { showActionSheetWithOptions } = useActionSheet();
 
     useEffect(() => {
         async function getUser() {
@@ -34,47 +31,11 @@ export default function UserDetails() {
         getPosts();
     }, [id]);
 
-    function showEditMenu() {
-        const options = ["Update User", "Delete User", "Cancel"];
-        const destructiveButtonIndex = 1;
-        const cancelButtonIndex = 2;
-
-        showActionSheetWithOptions(
-            {
-                options,
-                cancelButtonIndex,
-                destructiveButtonIndex,
-                title: "Change User"
-            },
-            selectedIndex => {
-                console.log(selectedIndex);
-                switch (selectedIndex) {
-                    case 0:
-                        // Update User
-                        console.log("Update User");
-                        break;
-
-                    case destructiveButtonIndex:
-                        // Delete
-                        break;
-
-                    case cancelButtonIndex:
-                    // Canceled
-                }
-            }
-        );
-    }
-
     return (
-        <ScrollView nestedScrollEnabled={true}>
+        <ScrollView>
             <Stack.Screen
                 options={{
-                    title: user?.name,
-                    headerRight: () => (
-                        <TouchableOpacity onPress={showEditMenu}>
-                            <Ionicons style={styles.dots} name="ellipsis-horizontal" size={28} color="#ffffff" />
-                        </TouchableOpacity>
-                    )
+                    title: user?.name
                 }}
             />
             <View style={styles.userNameContainer}>

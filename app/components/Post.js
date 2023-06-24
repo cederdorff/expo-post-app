@@ -56,9 +56,9 @@ export default function Post({ post }) {
                     <Ionicons name="ellipsis-horizontal" size={28} color="#264c59" />
                 </TouchableOpacity>
             </View>
-            <Image style={styles.postImage} source={{ uri: post.image }} />
-            <Text style={styles.postCaption}>{post.caption}</Text>
-            <Text style={styles.postDate}>{formatDate(post.createdAt)}</Text>
+            <Image style={styles.image} source={{ uri: post.image }} />
+            <Text style={styles.caption}>{post.caption}</Text>
+            <Text style={styles.date}>{formatDate(post.createdAt)}</Text>
         </View>
     );
 }
@@ -71,21 +71,21 @@ const styles = StyleSheet.create({
         borderBottomColor: "#acc6c9",
         borderBottomWidth: 0.5
     },
-    postCaption: {
-        fontSize: 22,
-        padding: 15
-    },
-    postDate: {
-        fontSize: 15,
-        paddingHorizontal: 15
-    },
-    postImage: {
-        aspectRatio: 1,
-        flex: 1
-    },
     headerContainer: {
         alignItems: "center",
         flexDirection: "row"
+    },
+    caption: {
+        fontSize: 22,
+        padding: 15
+    },
+    date: {
+        fontSize: 15,
+        paddingHorizontal: 15
+    },
+    image: {
+        aspectRatio: 1,
+        flex: 1
     },
     dots: {
         position: "absolute",
