@@ -14,7 +14,7 @@ export default function Post({ post, reload }) {
         let month = createdAt.getMonth();
         let date = createdAt.getDate();
 
-        month++;
+        month++; // index 0 is January
         month = month < 10 ? "0" + month : month;
         date = date < 10 ? "0" + date : date;
 
