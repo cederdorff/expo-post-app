@@ -8,12 +8,14 @@ export default function Posts() {
     const [refreshing, setRefreshing] = useState(false);
     const router = useRouter();
 
+    const API_URL = "https://expo-post-app-default-rtdb.firebaseio.com";
+
     useEffect(() => {
         getPosts();
     }, []);
 
     async function getPosts() {
-        const response = await fetch("https://expo-post-app-default-rtdb.firebaseio.com/posts.json");
+        const response = await fetch(`${API_URL}/posts.json`);
         const dataObj = await response.json();
         const postsArray = Object.keys(dataObj).map(key => ({ id: key, ...dataObj[key] })); // from object to array
         postsArray.sort((postA, postB) => postB.createdAt - postA.createdAt); // sort by timestamp/ createdBy

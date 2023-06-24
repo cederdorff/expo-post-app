@@ -8,6 +8,7 @@ export default function UserDetails() {
     const { id } = useSearchParams();
     const [user, setUser] = useState([]);
     const [posts, setPosts] = useState([]);
+    const API_URL = "https://expo-post-app-default-rtdb.firebaseio.com";
 
     useEffect(() => {
         getUser();
@@ -15,7 +16,7 @@ export default function UserDetails() {
     }, [id]);
 
     async function getUser() {
-        const response = await fetch(`https://expo-post-app-default-rtdb.firebaseio.com/users/${id}.json`);
+        const response = await fetch(`${API_URL}/users/${id}.json`);
         const data = await response.json();
         console.log(data);
         setUser(data);
@@ -23,9 +24,7 @@ export default function UserDetails() {
 
     async function getPosts() {
         // fetch posts where uid is equal to userId prop
-        const response = await fetch(
-            `https://expo-post-app-default-rtdb.firebaseio.com/posts.json?orderBy="uid"&equalTo="${id}"`
-        );
+        const response = await fetch(`${API_URL}/posts.json?orderBy="uid"&equalTo="${id}"`);
         const dataObj = await response.json();
         const postsArray = Object.keys(dataObj).map(key => ({ id: key, ...dataObj[key] })); // from object to array
         postsArray.sort((postA, postB) => postB.createdAt - postA.createdAt); // sort by timestamp/ createdBy
