@@ -1,6 +1,17 @@
+import * as ImagePicker from "expo-image-picker";
 import { Stack, useRouter, useSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
-import { Image, StyleSheet, Text, TextInput, View, Button } from "react-native";
+import {
+    Button,
+    Image,
+    KeyboardAvoidingView,
+    Platform,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View
+} from "react-native";
 
 export default function PostModal() {
     const { id } = useSearchParams();
@@ -51,6 +62,20 @@ export default function PostModal() {
         }
     }
 
+    async function chooseImage() {
+        const result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            base64: true,
+            allowsEditing: true,
+            quality: 0.3
+        });
+
+        if (!result.canceled) {
+            const base64 = "data:image/jpeg;base64," + result.assets[0].base64;
+            setImage(base64);
+        }
+    }
+
     return (
         <View style={styles.container}>
             <Stack.Screen
@@ -60,20 +85,21 @@ export default function PostModal() {
                     headerRight: () => <Button title={id ? "Update" : "Create"} color="#fff" onPress={handleSave} />
                 }}
             />
-            <View style={styles.main}>
-                <Image
-                    style={styles.image}
-                    source={{
-                        uri:
-                            image ||
-                            "https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg"
-                    }}
-                />
-                <Text style={styles.label}>Image Url</Text>
-                <TextInput style={styles.input} keyboardType="url" onChangeText={setImage} value={image} />
+            <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
+                <Text style={styles.label}>Image</Text>
+                <TouchableOpacity onPress={chooseImage}>
+                    <Image
+                        style={styles.image}
+                        source={{
+                            uri:
+                                image ||
+                                "https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg"
+                        }}
+                    />
+                </TouchableOpacity>
                 <Text style={styles.label}>Caption</Text>
                 <TextInput style={styles.input} onChangeText={setCaption} value={caption} />
-            </View>
+            </KeyboardAvoidingView>
         </View>
     );
 }
@@ -85,8 +111,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#acc6c9"
     },
     main: {
-        flex: 1,
-        justifyContent: "center"
+        flex: 1
     },
     image: {
         aspectRatio: 1
