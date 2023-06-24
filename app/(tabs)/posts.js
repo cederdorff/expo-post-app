@@ -1,10 +1,12 @@
+import { Stack, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
-import { FlatList, RefreshControl, StyleSheet, View } from "react-native";
+import { Button, FlatList, RefreshControl, StyleSheet, View } from "react-native";
 import Post from "../components/Post";
 
 export default function Posts() {
     const [posts, setPosts] = useState([]);
     const [refreshing, setRefreshing] = useState(false);
+    const router = useRouter();
 
     useEffect(() => {
         getPosts();
@@ -33,6 +35,14 @@ export default function Posts() {
 
     return (
         <View style={styles.list}>
+            <Stack.Screen
+                options={{
+                    headerRight: () => (
+                        <Button title="Add New" color="#fff" onPress={() => router.push("/post-modal")} />
+                    )
+                }}
+            />
+
             <FlatList
                 data={posts}
                 renderItem={renderPost}
