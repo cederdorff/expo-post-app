@@ -1,11 +1,11 @@
-import { Stack, useSearchParams } from "expo-router";
+import { Stack, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import Post from "../../components/Post";
 
 export default function UserDetails() {
-    const { id } = useSearchParams();
+    const { id } = useLocalSearchParams();
     const [user, setUser] = useState([]);
     const [posts, setPosts] = useState([]);
     const API_URL = "https://expo-post-app-default-rtdb.firebaseio.com";
