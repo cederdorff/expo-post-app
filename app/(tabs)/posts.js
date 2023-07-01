@@ -33,7 +33,7 @@ export default function Posts() {
 
     function renderPost(item) {
         const post = item.item;
-        return <Post post={post} reload={handleRefresh} />;
+        return <Post post={post} reload={getPosts} />;
     }
 
     async function handleRefresh() {

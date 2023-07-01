@@ -45,7 +45,7 @@ export default function UserDetails() {
             <Image style={styles.userImage} source={{ uri: user?.image }} />
             <Text style={styles.postHeader}>Posts by {user?.name}</Text>
             {posts.map(post => (
-                <Post post={post} key={post.id} reload={getPosts} />
+                <Post post={post} key={post.id} />
             ))}
         </ScrollView>
     );

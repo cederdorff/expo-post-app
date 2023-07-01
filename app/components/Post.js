@@ -1,8 +1,8 @@
+import { useActionSheet } from "@expo/react-native-action-sheet";
+import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 import { Alert, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Avatar from "./Avatar";
-import { Ionicons } from "@expo/vector-icons";
-import { useActionSheet } from "@expo/react-native-action-sheet";
-import { useRouter } from "expo-router";
 
 export default function Post({ post, reload }) {
     const { showActionSheetWithOptions } = useActionSheet();
@@ -69,6 +69,7 @@ export default function Post({ post, reload }) {
     async function deletePost() {
         const response = await fetch(`${API_URL}/posts/${post.id}.json`, { method: "DELETE" });
         if (response.ok) {
+            console.log("Post deleted!");
             reload();
         }
     }
