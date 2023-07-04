@@ -26,7 +26,16 @@ export default function SignIn() {
     }
     return (
         <View style={styles.container}>
-            <Stack.Screen options={{ headerShown: false }} />
+            <Stack.Screen
+                options={{
+                    title: "Sign In",
+                    presentation: "modal",
+                    headerTintColor: "#fff",
+                    headerStyle: {
+                        backgroundColor: "#264c59"
+                    }
+                }}
+            />
             <Text style={styles.label}>Mail</Text>
             <TextInput style={styles.input} onChangeText={setMail} value={mail} placeholder="Type your mail" />
             <Text style={styles.label}>Password</Text>
@@ -37,7 +46,7 @@ export default function SignIn() {
                 secureTextEntry={true}
                 placeholder="Type your password"
             />
-            <Button title="Sign In" onPress={handleSignIn} />
+            <Button title="Sign In" color={Platform.OS === "ios" ? "#fff" : "#264c59"} onPress={handleSignIn} />
         </View>
     );
 }
