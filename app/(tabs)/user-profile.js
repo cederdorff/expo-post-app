@@ -25,7 +25,7 @@ export default function UserProfile() {
     async function getLocation() {
         const { status } = await Location.requestForegroundPermissionsAsync();
         if (status !== "granted") {
-            Alert("Permission Error", "Permission to access location was denied");
+            console.log("Permission Error", "Permission to access location was denied");
             return;
         }
         const location = await Location.getCurrentPositionAsync();
