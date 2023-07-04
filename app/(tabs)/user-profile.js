@@ -4,6 +4,7 @@ import { signOut } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { Button, Platform, StyleSheet, Text, View } from "react-native";
 import { auth } from "../../firebase-config";
+import MapView, { Marker } from "react-native-maps";
 
 export default function UserProfile() {
     const router = useRouter();
@@ -49,6 +50,9 @@ export default function UserProfile() {
                 <Text>{mail}</Text>
                 <Text>Lat: {lat}</Text>
                 <Text>Long: {long}</Text>
+                <MapView style={styles.map}>
+                    <Marker coordinate={{ latitude: lat, longitude: long }} title="RACE" description="Here I am" />
+                </MapView>
             </View>
         </View>
     );
@@ -57,5 +61,9 @@ export default function UserProfile() {
 const styles = StyleSheet.create({
     list: {
         flex: 1
+    },
+    map: {
+        width: "100%",
+        height: "100%"
     }
 });
