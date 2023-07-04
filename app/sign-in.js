@@ -46,7 +46,7 @@ export default function SignIn() {
                 secureTextEntry={true}
                 placeholder="Type your password"
             />
-            <Button title="Sign In" color={Platform.OS === "ios" ? "#fff" : "#264c59"} onPress={handleSignIn} />
+            <Button title="Sign In" color={Platform.OS === "ios" ? "#264c59" : "#264c59"} onPress={handleSignIn} />
         </View>
     );
 }
