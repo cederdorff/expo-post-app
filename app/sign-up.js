@@ -1,17 +1,17 @@
 import { useState } from "react";
 import { Text, View, TextInput, StyleSheet, Button } from "react-native";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { Link, Stack, useRouter } from "expo-router";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { Stack, useRouter } from "expo-router";
 
-export default function SignIn() {
+export default function SignUp() {
     const [mail, setMail] = useState("");
     const [password, setPassword] = useState("");
     const router = useRouter();
 
     const auth = getAuth();
 
-    function handleSignIn() {
-        signInWithEmailAndPassword(auth, mail, password)
+    function handleSignUp() {
+        createUserWithEmailAndPassword(auth, mail, password)
             .then(userCredential => {
                 // Signed in
                 const user = userCredential.user;
@@ -24,12 +24,11 @@ export default function SignIn() {
                 const errorMessage = error.message;
             });
     }
-
     return (
         <View style={styles.container}>
             <Stack.Screen
                 options={{
-                    title: "Sign In",
+                    title: "Create new account",
                     headerTintColor: "#fff",
                     headerStyle: {
                         backgroundColor: "#264c59"
@@ -46,8 +45,7 @@ export default function SignIn() {
                 secureTextEntry={true}
                 placeholder="Type your password"
             />
-            <Button title="Sign In" color="#264c59" onPress={handleSignIn} />
-            <Button title="Create new account" color="#264c59" onPress={handleSignIn} />
+            <Button title="Create account" color="#264c59" onPress={handleSignUp} />
         </View>
     );
 }
