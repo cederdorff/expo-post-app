@@ -1,6 +1,6 @@
 import { Stack, useFocusEffect, useRouter } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
-import { Button, FlatList, RefreshControl, StyleSheet, View } from "react-native";
+import { Button, FlatList, RefreshControl, StyleSheet, View, Platform } from "react-native";
 import Post from "../components/Post";
 
 export default function Posts() {
@@ -49,7 +49,11 @@ export default function Posts() {
             <Stack.Screen
                 options={{
                     headerRight: () => (
-                        <Button title="Add New" color="#fff" onPress={() => router.push("/post-modal")} />
+                        <Button
+                            title="Add New"
+                            color={Platform.OS === "ios" ? "#fff" : "#264c59"}
+                            onPress={() => router.push("/post-modal")}
+                        />
                     )
                 }}
             />

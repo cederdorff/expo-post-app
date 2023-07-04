@@ -81,8 +81,20 @@ export default function PostModal() {
             <Stack.Screen
                 options={{
                     title: id ? "Update Post" : "Create Post",
-                    headerLeft: () => <Button title="Cancel" color="#fff" onPress={() => router.back()} />,
-                    headerRight: () => <Button title={id ? "Update" : "Create"} color="#fff" onPress={handleSave} />
+                    headerLeft: () => (
+                        <Button
+                            title="Cancel"
+                            color={Platform.OS === "ios" ? "#fff" : "#264c59"}
+                            onPress={() => router.back()}
+                        />
+                    ),
+                    headerRight: () => (
+                        <Button
+                            title={id ? "Update" : "Create"}
+                            color={Platform.OS === "ios" ? "#fff" : "#264c59"}
+                            onPress={handleSave}
+                        />
+                    )
                 }}
             />
             <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
