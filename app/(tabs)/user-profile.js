@@ -1,18 +1,15 @@
-import { Stack, useRouter } from "expo-router";
-import { useEffect, useState } from "react";
-import { Button, Platform, StyleSheet, View, Text } from "react-native";
-import { auth } from "../../firebase-config";
-import { signOut } from "firebase/auth";
 import * as Location from "expo-location";
+import { Stack, useRouter } from "expo-router";
+import { signOut } from "firebase/auth";
+import { useEffect, useState } from "react";
+import { Button, Platform, StyleSheet, Text, View } from "react-native";
+import { auth } from "../../firebase-config";
 
 export default function UserProfile() {
     const router = useRouter();
     const [mail, setEmail] = useState([]);
-    const [location, setLocation] = useState(null);
     const [long, setLong] = useState("");
     const [lat, setLat] = useState("");
-    const [errorMsg, setErrorMsg] = useState(null);
-    const API_URL = "https://expo-post-app-default-rtdb.firebaseio.com";
 
     useEffect(() => {
         console.log(auth.currentUser.email);
@@ -22,10 +19,9 @@ export default function UserProfile() {
     useEffect(() => {
         (async () => {
             const location = await Location.getCurrentPositionAsync({});
-            setLocation(location);
+            console.log(location);
             setLong(location.coords.longitude);
             setLat(location.coords.latitude);
-            console.log(location);
         })();
     }, []);
 
