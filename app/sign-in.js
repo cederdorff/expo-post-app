@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Text, View, TextInput, StyleSheet, Button } from "react-native";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { useRouter } from "expo-router";
+import { Stack, useRouter } from "expo-router";
 
 export default function SignIn() {
     const [mail, setMail] = useState("");
@@ -16,7 +16,7 @@ export default function SignIn() {
                 // Signed in
                 const user = userCredential.user;
                 console.log(user);
-                router.push("/posts");
+                router.replace("/posts");
                 // ...
             })
             .catch(error => {
@@ -25,10 +25,18 @@ export default function SignIn() {
             });
     }
     return (
-        <View>
-            <Text>Sign in</Text>
-            <TextInput style={styles.input} onChangeText={setMail} value={mail} />
-            <TextInput style={styles.input} onChangeText={setPassword} value={password} />
+        <View style={styles.container}>
+            <Stack.Screen options={{ headerShown: false }} />
+            <Text style={styles.label}>Mail</Text>
+            <TextInput style={styles.input} onChangeText={setMail} value={mail} placeholder="Type your mail" />
+            <Text style={styles.label}>Password</Text>
+            <TextInput
+                style={styles.input}
+                onChangeText={setPassword}
+                value={password}
+                secureTextEntry={true}
+                placeholder="Type your password"
+            />
             <Button title="Sign In" onPress={handleSignIn} />
         </View>
     );
@@ -56,6 +64,7 @@ const styles = StyleSheet.create({
         height: 50,
         padding: 10,
         backgroundColor: "#ffffff",
-        borderRadius: 20
+        borderRadius: 20,
+        marginVertical: 20
     }
 });
