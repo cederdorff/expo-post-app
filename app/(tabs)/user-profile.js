@@ -17,13 +17,15 @@ export default function UserProfile() {
     }, []);
 
     useEffect(() => {
-        (async () => {
-            const location = await Location.getCurrentPositionAsync({});
-            console.log(location);
-            setLong(location.coords.longitude);
-            setLat(location.coords.latitude);
-        })();
+        getLocation();
     }, []);
+
+    async function getLocation() {
+        const location = await Location.getCurrentPositionAsync();
+        console.log(location);
+        setLong(location.coords.longitude);
+        setLat(location.coords.latitude);
+    }
 
     async function handleSignOut() {
         await signOut(auth);
