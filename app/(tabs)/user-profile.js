@@ -21,13 +21,7 @@ export default function UserProfile() {
 
     useEffect(() => {
         (async () => {
-            let { status } = await Location.requestForegroundPermissionsAsync();
-            if (status !== "granted") {
-                setErrorMsg("Permission to access location was denied");
-                return;
-            }
-
-            let location = await Location.getCurrentPositionAsync({});
+            const location = await Location.getCurrentPositionAsync({});
             setLocation(location);
             setLong(location.coords.longitude);
             setLat(location.coords.latitude);
