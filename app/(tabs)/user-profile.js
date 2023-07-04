@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { Button, Platform, StyleSheet, Text, View } from "react-native";
 import { auth } from "../../firebase-config";
 import MapView, { Marker } from "react-native-maps";
+import { Alert } from "react-native";
 
 export default function UserProfile() {
     const router = useRouter();
@@ -22,6 +23,11 @@ export default function UserProfile() {
     }, []);
 
     async function getLocation() {
+        const { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== "granted") {
+            Alert("Permission Error", "Permission to access location was denied");
+            return;
+        }
         const location = await Location.getCurrentPositionAsync();
         console.log(location);
         setLong(location.coords.longitude);
