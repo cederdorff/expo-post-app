@@ -36,7 +36,13 @@ export default function SignUp() {
                 }}
             />
             <Text style={styles.label}>Mail</Text>
-            <TextInput style={styles.input} onChangeText={setMail} value={mail} placeholder="Type your mail" />
+            <TextInput
+                style={styles.input}
+                onChangeText={setMail}
+                value={mail}
+                placeholder="Type your mail"
+                autoCapitalize="none"
+            />
             <Text style={styles.label}>Password</Text>
             <TextInput
                 style={styles.input}
@@ -44,6 +50,7 @@ export default function SignUp() {
                 value={password}
                 secureTextEntry={true}
                 placeholder="Type your password"
+                autoCapitalize="none"
             />
             <Button title="Create account" color="#264c59" onPress={handleSignUp} />
         </View>

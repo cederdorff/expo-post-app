@@ -25,6 +25,10 @@ export default function SignIn() {
             });
     }
 
+    function goToSignUp() {
+        router.push("/sign-up");
+    }
+
     return (
         <View style={styles.container}>
             <Stack.Screen
@@ -47,7 +51,7 @@ export default function SignIn() {
                 placeholder="Type your password"
             />
             <Button title="Sign In" color="#264c59" onPress={handleSignIn} />
-            <Button title="Create new account" color="#264c59" onPress={handleSignIn} />
+            <Button title="Create new account" color="#264c59" onPress={goToSignUp} />
         </View>
     );
 }
