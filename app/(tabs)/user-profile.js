@@ -21,6 +21,11 @@ export default function UserProfile() {
     }, []);
 
     async function getLocation() {
+        const { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== "granted") {
+            console.log("Permission Error", "Permission to access location was denied");
+            return;
+        }
         const location = await Location.getCurrentPositionAsync();
         console.log(location);
         setLong(location.coords.longitude);
