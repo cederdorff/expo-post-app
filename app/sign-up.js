@@ -50,7 +50,6 @@ export default function SignUp() {
                 value={password}
                 secureTextEntry={true}
                 placeholder="Type your password"
-                autoCapitalize="none"
             />
             <Button title="Create account" color="#264c59" onPress={handleSignUp} />
         </View>

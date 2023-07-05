@@ -41,7 +41,13 @@ export default function SignIn() {
                 }}
             />
             <Text style={styles.label}>Mail</Text>
-            <TextInput style={styles.input} onChangeText={setMail} value={mail} placeholder="Type your mail" />
+            <TextInput
+                style={styles.input}
+                onChangeText={setMail}
+                value={mail}
+                placeholder="Type your mail"
+                autoCapitalize="none"
+            />
             <Text style={styles.label}>Password</Text>
             <TextInput
                 style={styles.input}
