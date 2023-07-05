@@ -8,7 +8,6 @@ export default function SignIn() {
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState("");
     const router = useRouter();
-
     const auth = getAuth();
 
     function handleSignIn() {
