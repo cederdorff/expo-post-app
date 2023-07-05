@@ -18,15 +18,10 @@ export default function SignIn() {
                 const user = userCredential.user;
                 console.log(user);
                 router.replace("/posts");
-                // ...
             })
             .catch(error => {
-                const errorCode = error.code;
-                console.log(error);
-                console.log(error.message);
-                let errorMessage = errorCode.split("/")[1];
+                let errorMessage = error.code.split("/")[1];
                 errorMessage = errorMessage.replaceAll("-", " ");
-                console.log(errorMessage);
                 setMessage(errorMessage);
             });
     }
