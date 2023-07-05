@@ -6,6 +6,7 @@ import { Link, Stack, useRouter } from "expo-router";
 export default function SignIn() {
     const [mail, setMail] = useState("");
     const [password, setPassword] = useState("");
+    const [message, setMessage] = useState("");
     const router = useRouter();
 
     const auth = getAuth();
@@ -21,7 +22,12 @@ export default function SignIn() {
             })
             .catch(error => {
                 const errorCode = error.code;
-                const errorMessage = error.message;
+                console.log(error);
+                console.log(error.message);
+                let errorMessage = errorCode.split("/")[1];
+                errorMessage = errorMessage.replaceAll("-", " ");
+                console.log(errorMessage);
+                setMessage(errorMessage);
             });
     }
 
@@ -58,6 +64,7 @@ export default function SignIn() {
             />
             <Button title="Sign In" color="#264c59" onPress={handleSignIn} />
             <Button title="Create new account" color="#264c59" onPress={goToSignUp} />
+            <Text style={styles.errorMessage}>{message}</Text>
         </View>
     );
 }
@@ -86,5 +93,10 @@ const styles = StyleSheet.create({
         backgroundColor: "#ffffff",
         borderRadius: 20,
         marginVertical: 20
+    },
+    errorMessage: {
+        color: "red",
+        textAlign: "center",
+        marginTop: 10
     }
 });
