@@ -14,7 +14,8 @@ export default function TabLayout() {
                 },
                 tabBarStyle: {
                     backgroundColor: "#264c59"
-                }
+                },
+                headerShown: false
             }}>
             <Tabs.Screen
                 name="posts"

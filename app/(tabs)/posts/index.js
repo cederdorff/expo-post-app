@@ -1,11 +1,13 @@
 import { Stack, useFocusEffect, useRouter } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
-import { Button, FlatList, RefreshControl, StyleSheet, View } from "react-native";
-import Post from "../components/Post";
+import { Button, FlatList, RefreshControl, StyleSheet, View, TextInput } from "react-native";
+import Post from "../../components/Post";
+import { SearchBar } from "react-native-screens";
 
 export default function Posts() {
     const [posts, setPosts] = useState([]);
     const [refreshing, setRefreshing] = useState(false);
+    const [searchText, setSearchText] = useState("");
     const router = useRouter();
 
     const API_URL = "https://expo-post-app-default-rtdb.firebaseio.com";
@@ -44,18 +46,24 @@ export default function Posts() {
         }, 500);
     }
 
+    const filteredPosts = posts.filter(post => post.caption.toLowerCase().includes(searchText.toLowerCase()));
+
     return (
         <View style={styles.list}>
             <Stack.Screen
                 options={{
+                    title: "Posts",
                     headerRight: () => (
                         <Button title="Add New" color="#fff" onPress={() => router.push("/post-modal")} />
-                    )
+                    ),
+                    headerSearchBarOptions: {
+                        placeholder: "Search ...",
+                        onChangeText: event => setSearchText(event.nativeEvent.text)
+                    }
                 }}
             />
-
             <FlatList
-                data={posts}
+                data={filteredPosts}
                 renderItem={renderPost}
                 keyExtractor={post => post.id}
                 refreshControl={
@@ -68,6 +76,10 @@ export default function Posts() {
 
 const styles = StyleSheet.create({
     list: {
+        flex: 1
+    },
+    searchBar: {
+        backgroundColor: "red",
         flex: 1
     }
 });
