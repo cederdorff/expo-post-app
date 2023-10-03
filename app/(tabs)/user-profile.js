@@ -6,12 +6,12 @@ import { signOut } from "firebase/auth";
 
 export default function UserProfile() {
     const router = useRouter();
-    const [mail, setEmail] = useState([]);
+    const [mail, setMail] = useState([]);
     const API_URL = "https://expo-post-app-default-rtdb.firebaseio.com";
 
     useEffect(() => {
         console.log(auth.currentUser.email);
-        setEmail(auth.currentUser.email);
+        setMail(auth.currentUser.email);
     }, []);
 
     async function handleSignOut() {
@@ -23,13 +23,7 @@ export default function UserProfile() {
         <View style={styles.list}>
             <Stack.Screen
                 options={{
-                    headerRight: () => (
-                        <Button
-                            title="Sign Out"
-                            color={Platform.OS === "ios" ? "#fff" : "#264c59"}
-                            onPress={handleSignOut}
-                        />
-                    )
+                    headerRight: () => <Button title="Sign Out" color={Platform.OS === "ios" ? "#fff" : "#264c59"} onPress={handleSignOut} />
                 }}
             />
             <View>
