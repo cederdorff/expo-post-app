@@ -6,8 +6,6 @@ import { useEffect, useState } from "react";
 
 export default function TabOneScreen() {
   const [users, setUsers] = useState([]);
-  console.log("users:", users);
-  console.log("Hello from my first React Native app 🎉");
 
   useEffect(() => {
     // Define URL
