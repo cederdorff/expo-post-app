@@ -16,6 +16,7 @@
     "app/(tabs)/two.jsx",
     "app/+not-found.jsx",
     "app/+html.jsx",
-    "app/_layout.jsx"
+    "app/_layout.jsx",
+    "app/modal.jsx"
   ]
 }
