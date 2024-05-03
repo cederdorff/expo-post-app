@@ -13,8 +13,8 @@ export default function PostModal() {
       <Stack.Screen
         options={{
           title: "Create Post",
-          headerLeft: () => <Button title="Cancel" onPress={() => router.back()} />,
-          headerRight: () => <Button title="Save" onPress={() => router.back()} />
+          headerLeft: () => <Button title="Cancel" onPress={() => router.back()} color="#fff" />,
+          headerRight: () => <Button title="Save" onPress={() => router.back()} color="#fff" />
         }}
       />
 

@@ -20,28 +20,54 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
+        tabBarActiveTintColor: "#264c59",
+        tabBarInactiveTintColor: "#fff",
+        tabBarActiveBackgroundColor: "#acc6c9",
         // Disable the static render of the header on web
         // to prevent a hydration error in React Navigation v6.
-        headerShown: useClientOnlyValue(false, true)
+        headerShown: useClientOnlyValue(false, true),
+        headerStyle: {
+          backgroundColor: "#264c59"
+        },
+        headerTintColor: "#fff",
+        headerTitleStyle: {
+          fontWeight: "bold"
+        },
+        tabBarStyle: {
+          backgroundColor: "#264c59"
+        }
       }}>
       <Tabs.Screen
         name="index"
         options={{
-          title: "Tab One",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: "Posts",
+          tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
           headerRight: () => (
             <Link href="/post-modal" asChild>
-              <Button title="Create" />
+              <Button title="Add New" color="#fff" />
             </Link>
           )
         }}
       />
       <Tabs.Screen
-        name="two"
+        name="map"
         options={{
-          title: "Tab Two",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />
+          title: "Map",
+          tabBarIcon: ({ color }) => <TabBarIcon name="map" color={color} />
+        }}
+      />
+      <Tabs.Screen
+        name="users"
+        options={{
+          title: "Users",
+          tabBarIcon: ({ color }) => <TabBarIcon name="users" color={color} />
+        }}
+      />
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: "Profile",
+          tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />
         }}
       />
     </Tabs>

@@ -51,7 +51,20 @@ function RootLayoutNav() {
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="post-modal" options={{ presentation: "modal" }} />
+        <Stack.Screen
+          name="post-modal"
+          options={{
+            presentation: "modal",
+            headerStyle: {
+              backgroundColor: "#264c59",
+              headerTintColor: "#fff"
+            },
+            headerTintColor: "#fff",
+            headerTitleStyle: {
+              fontWeight: "bold"
+            }
+          }}
+        />
       </Stack>
     </ThemeProvider>
   );
