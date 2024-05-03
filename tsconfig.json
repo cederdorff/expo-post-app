@@ -17,6 +17,6 @@
     "app/+not-found.jsx",
     "app/+html.jsx",
     "app/_layout.jsx",
-    "app/modal.jsx"
+    "app/post-modal.jsx"
   ]
 }
