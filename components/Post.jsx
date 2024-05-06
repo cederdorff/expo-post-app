@@ -8,18 +8,10 @@ export default function Post({ post }) {
     return createdAt.toLocaleDateString();
   }
 
-  const user = {
-    id: "dob",
-    image: "https://www.eaaa.dk/media/bdojel41/dan-okkels-brendstrup.jpg?anchor=center&mode=crop&width=800&height=450&rnd=132792921559630000&format=webp",
-    mail: "dob@eaaa.dk",
-    name: "Dan Okkels Brendstrup",
-    title: "Lecturer"
-  };
-
   return (
     <View style={styles.postContainer}>
       <View style={styles.headerContainer}>
-        <Avatar user={user} />
+        <Avatar user={post.user} />
       </View>
       <Image style={styles.image} source={{ uri: post.image }} />
       <Text style={styles.caption}>{post.caption}</Text>
