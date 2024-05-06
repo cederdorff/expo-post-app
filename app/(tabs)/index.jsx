@@ -1,50 +1,31 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 
-import { Text, View } from "@/components/Themed";
-import Welcome from "@/components/Welcome";
-import { useEffect, useState } from "react";
+import Post from "@/components/Post";
 
-export default function TabOneScreen() {
-  const [users, setUsers] = useState([]);
-
-  useEffect(() => {
-    // Define URL
-    const url = "https://raw.githubusercontent.com/cederdorff/race/master/data/users.json";
-    // Fetch data from API
-    fetch(url)
-      .then(response => response.json())
-      .then(data => {
-        setUsers(data);
-        console.log("users:", users);
-      });
-  }, []);
+export default function Index() {
+  const post = {
+    id: "-M1Abcdefg123",
+    caption: "Beautiful sunset at the beach",
+    createdAt: 1687215634430,
+    image: "https://images.unsplash.com/photo-1566241832378-917a0f30db2c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1pYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
+    uid: "dob",
+    location: {
+      city: "Aarhus",
+      country: "Denmark",
+      latitude: 56.1249541422341,
+      longitude: 10.218312555111716
+    }
+  };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-
-      {users.map(user => (
-        <Welcome key={user.id} name={user.name} mail={user.mail} />
-      ))}
+      <Post post={post} />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#fff"
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold"
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%"
+    flex: 1
   }
 });
