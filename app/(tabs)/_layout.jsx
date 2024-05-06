@@ -3,26 +3,18 @@ import { Link, Tabs } from "expo-router";
 import React from "react";
 import { Button } from "react-native";
 
-import { useClientOnlyValue } from "@/components/useClientOnlyValue";
-import { useColorScheme } from "@/components/useColorScheme";
-
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
 function TabBarIcon(props) {
   return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
 }
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
   return (
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: "#264c59",
         tabBarInactiveTintColor: "#fff",
         tabBarActiveBackgroundColor: "#acc6c9",
-        // Disable the static render of the header on web
-        // to prevent a hydration error in React Navigation v6.
-        headerShown: useClientOnlyValue(false, true),
         headerStyle: {
           backgroundColor: "#264c59"
         },
