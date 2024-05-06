@@ -1,3 +1,4 @@
+import { primary } from "@/constants/ThemeVariables";
 import { Image, StyleSheet, Text, View } from "react-native";
 
 export default function Avatar({ user }) {
@@ -25,7 +26,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 55 / 2,
     borderWidth: 3,
-    borderColor: "#264c59",
+    borderColor: primary,
     display: "flex",
     height: 55,
     justifyContent: "center",

@@ -2,7 +2,7 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Link, Tabs } from "expo-router";
 import React from "react";
 import { Button } from "react-native";
-
+import { primary, secondary, tintColorLight } from "@/constants/ThemeVariables";
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
 function TabBarIcon(props) {
   return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
@@ -12,18 +12,18 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: "#264c59",
-        tabBarInactiveTintColor: "#fff",
-        tabBarActiveBackgroundColor: "#acc6c9",
+        tabBarActiveTintColor: primary,
+        tabBarInactiveTintColor: tintColorLight,
+        tabBarActiveBackgroundColor: secondary,
         headerStyle: {
-          backgroundColor: "#264c59"
+          backgroundColor: primary
         },
-        headerTintColor: "#fff",
+        headerTintColor: tintColorLight,
         headerTitleStyle: {
           fontWeight: "bold"
         },
         tabBarStyle: {
-          backgroundColor: "#264c59"
+          backgroundColor: primary
         }
       }}>
       <Tabs.Screen
@@ -33,7 +33,7 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
           headerRight: () => (
             <Link href="/post-modal" asChild>
-              <Button title="Add New" color="#fff" />
+              <Button title="Add New" color={tintColorLight} />
             </Link>
           )
         }}

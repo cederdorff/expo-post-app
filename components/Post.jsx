@@ -1,5 +1,6 @@
 import { Image, StyleSheet, Text, View } from "react-native";
 import Avatar from "./Avatar";
+import { secondary, tintColorLight } from "@/constants/ThemeVariables";
 
 export default function Post({ post }) {
   function formatDate(timestamp) {
@@ -35,9 +36,9 @@ const styles = StyleSheet.create({
     flex: 1,
     minHeight: 320,
     paddingBottom: 30,
-    borderBottomColor: "#acc6c9",
+    borderBottomColor: secondary,
     borderBottomWidth: 1,
-    backgroundColor: "#fff"
+    backgroundColor: tintColorLight
   },
   headerContainer: {
     alignItems: "center",

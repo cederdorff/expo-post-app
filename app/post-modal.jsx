@@ -4,6 +4,7 @@ import { Button, Platform, StyleSheet, Text, View, TextInput, Image } from "reac
 import { Stack, useRouter } from "expo-router";
 
 import StyledButton from "@/components/StyledButton";
+import { labelFontSize, primary, secondary, tintColorLight } from "@/constants/ThemeVariables";
 
 export default function PostModal() {
   const router = useRouter();
@@ -41,7 +42,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 24,
-    backgroundColor: "#acc6c9"
+    backgroundColor: secondary
   },
   main: {
     flex: 1
@@ -49,21 +50,21 @@ const styles = StyleSheet.create({
   image: {
     aspectRatio: 1,
     borderRadius: 7,
-    borderColor: "#264c59",
+    borderColor: primary,
     borderWidth: 2
   },
   label: {
-    fontSize: 20,
-    color: "#264c59",
+    fontSize: labelFontSize,
+    color: primary,
     marginTop: 30,
     marginBottom: 5
   },
   input: {
     height: 50,
     padding: 10,
-    backgroundColor: "#fff",
+    backgroundColor: tintColorLight,
     borderRadius: 7,
-    borderColor: "#264c59",
+    borderColor: primary,
     borderWidth: 2
   }
 });

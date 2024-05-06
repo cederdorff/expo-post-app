@@ -6,6 +6,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 
 import { StatusBar } from "expo-status-bar";
+import { primary, tintColorLight } from "@/constants/ThemeVariables";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -55,10 +56,10 @@ function RootLayoutNav() {
           options={{
             presentation: "modal",
             headerStyle: {
-              backgroundColor: "#264c59",
-              headerTintColor: "#fff"
+              backgroundColor: primary,
+              headerTintColor: tintColorLight
             },
-            headerTintColor: "#fff",
+            headerTintColor: tintColorLight,
             headerTitleStyle: {
               fontWeight: "bold"
             }

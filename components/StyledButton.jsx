@@ -1,3 +1,4 @@
+import { borderRadius, borderWidth, primary, tintColorLight } from "@/constants/ThemeVariables";
 import { Text, StyleSheet, Pressable } from "react-native";
 
 export default function StyledButton({ title, onPress }) {
@@ -10,15 +11,15 @@ export default function StyledButton({ title, onPress }) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#264c59",
+    backgroundColor: primary,
     padding: 10,
     marginTop: 20,
-    borderRadius: 7,
-    borderColor: "#264c59",
-    borderWidth: 2
+    borderRadius: borderRadius,
+    borderColor: primary,
+    borderWidth: borderWidth
   },
   text: {
-    color: "#fff",
+    color: tintColorLight,
     fontSize: 18,
     textAlign: "center"
   }
