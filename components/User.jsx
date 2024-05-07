@@ -1,12 +1,10 @@
 import { primary, secondary } from "@/constants/ThemeVariables";
 import { Ionicons } from "@expo/vector-icons";
-import { useRouter } from "expo-router";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export default function User({ user }) {
-  const router = useRouter();
   return (
-    <TouchableOpacity onPress={() => router.push(`users/${user.id}`)}>
+    <TouchableOpacity>
       <View style={styles.userContainer}>
         <View style={styles.userImageContainer}>
           <Image style={styles.userImage} source={{ uri: user.image }} />
@@ -53,12 +51,10 @@ const styles = StyleSheet.create({
   },
   userName: {
     fontSize: 17,
-    fontWeight: "bold",
-    marginRight: 12
+    fontWeight: "bold"
   },
   userTitle: {
-    fontSize: 13,
-    marginRight: 12
+    fontSize: 13
   },
   chevron: {
     position: "absolute",
