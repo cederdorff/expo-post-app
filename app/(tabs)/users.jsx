@@ -1,10 +1,29 @@
-import { StyleSheet, Text, View } from "react-native";
+import { useEffect, useState } from "react";
+import { FlatList, StyleSheet, View, Text } from "react-native";
+import User from "../../components/User";
 
 export default function UsersTab() {
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    fetch(
+      "https://raw.githubusercontent.com/cederdorff/race/master/data/expo-users.json"
+    )
+      .then(response => response.json())
+      .then(setUsers);
+  }, []);
+
+  function renderUser({ item }) {
+    return <User user={item} />;
+  }
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Users</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+    <View style={styles.list}>
+      <FlatList
+        data={users}
+        renderItem={renderUser}
+        keyExtractor={user => user.id}
+      />
     </View>
   );
 }
