@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "expo-post-app-steps",
-    "slug": "expo-post-app-steps",
+    "name": "expo-post-app-v2-steps",
+    "slug": "expo-post-app-v2-steps",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -15,7 +15,7 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.expo-post-app-steps"
+      "bundleIdentifier": "eaaa.race.expo-post-app-v2-steps"
     },
     "android": {
       "adaptiveIcon": {
