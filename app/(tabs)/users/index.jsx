@@ -1,13 +1,11 @@
 import { primary, secondary } from "@/constants/ThemeVariables";
 import React, { useEffect, useState } from "react";
-import { SectionList, StyleSheet, Text, View } from "react-native";
+import { SectionList, StyleSheet, Text } from "react-native";
 import User from "../../../components/User";
 
 export default function UsersTab() {
   const [users, setUsers] = useState([]);
   const [sections, setSections] = useState([]);
-
-  console.log(new Date().getTime());
 
   useEffect(() => {
     fetch(
