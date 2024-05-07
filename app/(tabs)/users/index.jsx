@@ -1,7 +1,7 @@
 import { primary, secondary } from "@/constants/ThemeVariables";
 import React, { useEffect, useState } from "react";
 import { SectionList, StyleSheet, Text } from "react-native";
-import User from "../../../components/User";
+import User from "@/components/User";
 
 export default function UsersTab() {
   const [users, setUsers] = useState([]);
