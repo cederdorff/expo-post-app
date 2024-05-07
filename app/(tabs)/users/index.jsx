@@ -7,6 +7,8 @@ export default function UsersTab() {
   const [users, setUsers] = useState([]);
   const [sections, setSections] = useState([]);
 
+  console.log(new Date().getTime());
+
   useEffect(() => {
     fetch(
       "https://raw.githubusercontent.com/cederdorff/race/master/data/expo-users.json"
@@ -16,16 +18,19 @@ export default function UsersTab() {
   }, []);
 
   useEffect(() => {
-    const groupUsersByTitle = users.reduce((sections, user) => {
+    const groupUsersByTitle = users.reduce((titles, user) => {
       const title = user.title || "Others";
-      if (!sections[title]) {
-        sections[title] = { title: title, data: [] };
+      if (!titles[title]) {
+        titles[title] = { title: title, data: [] };
       }
-      sections[title].data.push(user);
-      return sections;
+      titles[title].data.push(user);
+      return titles;
     }, {});
 
-    setSections(Object.values(groupUsersByTitle));
+    const sectionData = Object.values(groupUsersByTitle);
+    sectionData.sort((a, b) => a.title.localeCompare(b.title));
+
+    setSections(sectionData);
   }, [users]);
 
   function renderUser({ item }) {
@@ -53,6 +58,7 @@ const styles = StyleSheet.create({
     color: primary,
     backgroundColor: secondary,
     paddingHorizontal: 10,
-    paddingVertical: 20
+    paddingTop: 25,
+    paddingBottom: 10
   }
 });
