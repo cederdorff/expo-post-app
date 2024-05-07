@@ -11,7 +11,7 @@ export default function Index() {
       "https://raw.githubusercontent.com/cederdorff/race/master/data/expo-posts.json"
     )
       .then(response => response.json())
-      .then(setPosts);
+      .then(data => setPosts(data.sort((a, b) => b.createdAt - a.createdAt)));
   }, []);
 
   function renderPost({ item }) {
