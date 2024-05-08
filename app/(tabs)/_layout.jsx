@@ -50,6 +50,7 @@ export default function TabLayout() {
         name="map"
         options={{
           title: "Map",
+          headerShown: false,
           tabBarIcon: ({ color }) => <TabBarIcon name="map" color={color} />
         }}
       />

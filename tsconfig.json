@@ -13,7 +13,7 @@
     "expo-env.d.ts",
     "app/(tabs)/index.jsx",
     "app/(tabs)/_layout.jsx",
-    "app/(tabs)/map.jsx",
+    "app/(tabs)/map/map.jsx",
     "app/+not-found.jsx",
     "app/+html.jsx",
     "app/_layout.jsx",
