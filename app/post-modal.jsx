@@ -1,21 +1,48 @@
 import { StatusBar } from "expo-status-bar";
-import { Button, Platform, StyleSheet, Text, View, TextInput, Image } from "react-native";
+import {
+  Button,
+  Platform,
+  StyleSheet,
+  Text,
+  ScrollView,
+  TextInput,
+  Image,
+  PlatformColor
+} from "react-native";
 
 import { Stack, useRouter } from "expo-router";
 
 import StyledButton from "@/components/StyledButton";
-import { labelFontSize, primary, secondary, tintColorLight } from "@/constants/ThemeVariables";
+import {
+  labelFontSize,
+  primary,
+  secondary,
+  tintColorDark,
+  tintColorLight
+} from "@/constants/ThemeVariables";
 
 export default function PostModal() {
   const router = useRouter();
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <Stack.Screen
         options={{
           title: "Create Post",
-          headerLeft: () => <Button title="Cancel" onPress={() => router.back()} color="#fff" />,
-          headerRight: () => <Button title="Save" onPress={() => router.back()} color="#fff" />
+          headerLeft: () => (
+            <Button
+              title="Cancel"
+              onPress={() => router.back()}
+              color={Platform.OS === "ios" ? tintColorLight : tintColorDark}
+            />
+          ),
+          headerRight: () => (
+            <Button
+              title="Save"
+              onPress={() => router.back()}
+              color={Platform.OS === "ios" ? tintColorLight : tintColorDark}
+            />
+          )
         }}
       />
 
@@ -34,7 +61,7 @@ export default function PostModal() {
       <Text style={styles.label}>City</Text>
       <TextInput style={styles.input} placeholder="Type your city" />
       <StyledButton title="Create Post" onPress={() => router.back()} />
-    </View>
+    </ScrollView>
   );
 }
 
