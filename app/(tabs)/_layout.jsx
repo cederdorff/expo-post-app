@@ -1,5 +1,5 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { Link, Tabs } from "expo-router";
+import { router, Tabs } from "expo-router";
 import React from "react";
 import { Button, Platform } from "react-native";
 import {
@@ -37,12 +37,11 @@ export default function TabLayout() {
           title: "Posts",
           tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
           headerRight: () => (
-            <Link href="/post-modal" asChild>
-              <Button
-                title="Add New"
-                color={Platform.OS === "ios" ? tintColorLight : tintColorDark}
-              />
-            </Link>
+            <Button
+              title="Add New"
+              color={Platform.OS === "ios" ? tintColorLight : tintColorDark}
+              onPress={() => router.push("/post-modal")}
+            />
           )
         }}
       />
