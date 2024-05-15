@@ -153,7 +153,11 @@ export default function PostModal() {
       <TextInput
         style={styles.input}
         placeholder="Type your city"
-        value={`${location.city}, ${location.country}`}
+        value={
+          location.city
+            ? `${location.city}, ${location.country}`
+            : "Loading your current location..."
+        }
         editable={false}
       />
       <StyledButton title="Create Post" onPress={() => router.back()} />
