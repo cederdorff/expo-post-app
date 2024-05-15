@@ -1,17 +1,3 @@
-import { StatusBar } from "expo-status-bar";
-import {
-  Button,
-  Platform,
-  StyleSheet,
-  Text,
-  ScrollView,
-  TextInput,
-  Image,
-  PlatformColor
-} from "react-native";
-
-import { Stack, useRouter } from "expo-router";
-
 import StyledButton from "@/components/StyledButton";
 import {
   labelFontSize,
@@ -20,9 +6,57 @@ import {
   tintColorDark,
   tintColorLight
 } from "@/constants/ThemeVariables";
+import * as Location from "expo-location";
+import { Stack, useRouter } from "expo-router";
+import { StatusBar } from "expo-status-bar";
+import { useEffect, useState } from "react";
+import {
+  Button,
+  Image,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput
+} from "react-native";
 
 export default function PostModal() {
+  const [location, setLocation] = useState({});
   const router = useRouter();
+
+  useEffect(() => {
+    loadLocation();
+  }, []);
+
+  async function requestLocationPersmissions() {
+    const { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== "granted") {
+      console.log("Permission to access location was denied");
+      return;
+    }
+  }
+
+  async function loadLocation() {
+    await requestLocationPersmissions();
+    setLocation(await getLocation());
+  }
+
+  async function getLocation() {
+    const currentLocation = await Location.getCurrentPositionAsync();
+    const response = await fetch(
+      `https://api.opencagedata.com/geocode/v1/json?q=${currentLocation.coords.latitude}+${currentLocation.coords.longitude}&key=34c26ae385c341ec835bbc7f3cd4440e`
+    );
+    const data = await response.json();
+    return {
+      latitude: currentLocation.coords.latitude,
+      longitude: currentLocation.coords.longitude,
+      city:
+        data.results[0].components.city ||
+        data.results[0].components.postal_city ||
+        data.results[0].components.town,
+      country: data.results[0].components.country
+    };
+  }
 
   return (
     <ScrollView style={styles.container}>
@@ -46,9 +80,6 @@ export default function PostModal() {
         }}
       />
 
-      {/* Use a light status bar on iOS to account for the black space above the modal */}
-      <StatusBar style={Platform.OS === "ios" ? "light" : "auto"} />
-
       <Text style={styles.label}>Image</Text>
       <Image
         style={styles.image}
@@ -59,7 +90,12 @@ export default function PostModal() {
       <Text style={styles.label}>Caption</Text>
       <TextInput style={styles.input} placeholder="Type your caption" />
       <Text style={styles.label}>City</Text>
-      <TextInput style={styles.input} placeholder="Type your city" />
+      <TextInput
+        style={styles.input}
+        placeholder="Type your city"
+        value={`${location.city}, ${location.country}`}
+        editable={false}
+      />
       <StyledButton title="Create Post" onPress={() => router.back()} />
     </ScrollView>
   );
