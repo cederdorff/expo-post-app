@@ -6,9 +6,9 @@ import {
   tintColorDark,
   tintColorLight
 } from "@/constants/ThemeVariables";
+import * as ImagePicker from "expo-image-picker";
 import * as Location from "expo-location";
 import { Stack, useRouter } from "expo-router";
-import { StatusBar } from "expo-status-bar";
 import { useEffect, useState } from "react";
 import {
   Button,
@@ -17,11 +17,16 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  TextInput
+  TextInput,
+  TouchableOpacity
 } from "react-native";
+import { useActionSheet } from "@expo/react-native-action-sheet";
 
 export default function PostModal() {
   const [location, setLocation] = useState({});
+  const [image, setImage] = useState("");
+
+  const { showActionSheetWithOptions } = useActionSheet();
   const router = useRouter();
 
   useEffect(() => {
@@ -32,6 +37,14 @@ export default function PostModal() {
     const { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== "granted") {
       console.log("Permission to access location was denied");
+      return;
+    }
+  }
+
+  async function requestCameraPermissions() {
+    const { status } = await ImagePicker.requestCameraPermissionsAsync();
+    if (status !== "granted") {
+      console.log("Permission to access camera was denied");
       return;
     }
   }
@@ -58,6 +71,49 @@ export default function PostModal() {
     };
   }
 
+  async function chooseImage(type) {
+    let result;
+
+    if (type === "camera") {
+      await requestCameraPermissions();
+
+      result = await ImagePicker.launchCameraAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        base64: true,
+        allowsEditing: true,
+        quality: 0.3
+      });
+    } else {
+      result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        base64: true,
+        allowsEditing: true,
+        quality: 0.3
+      });
+    }
+
+    if (!result.canceled) {
+      const base64 = "data:image/jpeg;base64," + result.assets[0].base64;
+      setImage(base64);
+    }
+  }
+
+  function chooseCameraOrLibrary() {
+    showActionSheetWithOptions(
+      {
+        options: ["Take a photo", "Choose from library", "Cancel"],
+        cancelButtonIndex: 2
+      },
+      buttonIndex => {
+        if (buttonIndex === 0) {
+          chooseImage("camera");
+        } else if (buttonIndex === 1) {
+          chooseImage("library");
+        }
+      }
+    );
+  }
+
   return (
     <ScrollView style={styles.container}>
       <Stack.Screen
@@ -81,12 +137,16 @@ export default function PostModal() {
       />
 
       <Text style={styles.label}>Image</Text>
-      <Image
-        style={styles.image}
-        source={{
-          uri: "https://cederdorff.com/race/images/placeholder-image.webp"
-        }}
-      />
+      <TouchableOpacity onPress={chooseCameraOrLibrary}>
+        <Image
+          style={styles.image}
+          source={{
+            uri:
+              image ||
+              "https://cederdorff.com/race/images/placeholder-image.webp"
+          }}
+        />
+      </TouchableOpacity>
       <Text style={styles.label}>Caption</Text>
       <TextInput style={styles.input} placeholder="Type your caption" />
       <Text style={styles.label}>City</Text>

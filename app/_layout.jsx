@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { primary, tintColorLight } from "@/constants/ThemeVariables";
 import { StatusBar } from "expo-status-bar";
 import "react-native-reanimated";
+import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -47,25 +48,27 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   return (
-    <ThemeProvider value={DefaultTheme}>
-      <StatusBar style="light" />
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen
-          name="post-modal"
-          options={{
-            presentation: "modal",
-            headerStyle: {
-              backgroundColor: primary,
-              headerTintColor: tintColorLight
-            },
-            headerTintColor: tintColorLight,
-            headerTitleStyle: {
-              fontWeight: "bold"
-            }
-          }}
-        />
-      </Stack>
-    </ThemeProvider>
+    <ActionSheetProvider>
+      <ThemeProvider value={DefaultTheme}>
+        <StatusBar style="light" />
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen
+            name="post-modal"
+            options={{
+              presentation: "modal",
+              headerStyle: {
+                backgroundColor: primary,
+                headerTintColor: tintColorLight
+              },
+              headerTintColor: tintColorLight,
+              headerTitleStyle: {
+                fontWeight: "bold"
+              }
+            }}
+          />
+        </Stack>
+      </ThemeProvider>
+    </ActionSheetProvider>
   );
 }
