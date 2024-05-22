@@ -1,10 +1,12 @@
-import { StyleSheet, FlatList } from "react-native";
+import { StyleSheet, FlatList, RefreshControl } from "react-native";
 
 import Post from "@/components/Post";
 import { useEffect, useState } from "react";
+import { tintColorDark } from "@/constants/ThemeVariables";
 
 export default function Index() {
   const [posts, setPosts] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     getPosts();
@@ -31,12 +33,28 @@ export default function Index() {
     return <Post post={item}></Post>;
   }
 
+  async function handleRefresh() {
+    setRefreshing(true);
+    await getPosts();
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 500);
+  }
+
   return (
     <FlatList
       style={styles.container}
       data={posts}
       renderItem={renderPost}
-      keyExtractor={post => post.id}></FlatList>
+      keyExtractor={post => post.id}
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={handleRefresh}
+          tintColor={tintColorDark}
+        />
+      }
+    />
   );
 }
 
