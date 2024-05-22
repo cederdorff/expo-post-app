@@ -11,7 +11,7 @@ export default function Post({ post }) {
   return (
     <View style={styles.postContainer}>
       <View style={styles.headerContainer}>
-        <Avatar user={post.user} />
+        <Avatar uid={post.uid} />
       </View>
       <Image style={styles.image} source={{ uri: post.image }} />
       <Text style={styles.caption}>{post.caption}</Text>
