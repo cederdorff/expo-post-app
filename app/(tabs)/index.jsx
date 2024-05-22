@@ -7,12 +7,25 @@ export default function Index() {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    fetch(
-      "https://raw.githubusercontent.com/cederdorff/race/master/data/expo-posts.json"
-    )
-      .then(response => response.json())
-      .then(data => setPosts(data.sort((a, b) => b.createdAt - a.createdAt)));
+    getPosts();
   }, []);
+
+  async function getPosts() {
+    const response = await fetch(
+      "https://expo-post-app-default-rtdb.firebaseio.com/posts.json"
+    );
+    const data = await response.json();
+    console.log(data);
+    const arrayOfPosts = Object.keys(data).map(key => {
+      return {
+        id: key,
+        ...data[key]
+      };
+    });
+    arrayOfPosts.sort((postA, postB) => postB.createdAt - postA.createdAt); // sort by timestamp/ createdBy
+    console.log(arrayOfPosts);
+    setPosts(arrayOfPosts);
+  }
 
   function renderPost({ item }) {
     return <Post post={item}></Post>;
