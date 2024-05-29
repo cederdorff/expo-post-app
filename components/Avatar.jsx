@@ -16,7 +16,6 @@ export default function Avatar({ uid }) {
       `https://expo-post-app-default-rtdb.firebaseio.com/users/${uid}.json`
     );
     const data = await response.json();
-
     setUser(data);
   }
 
