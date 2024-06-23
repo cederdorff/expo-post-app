@@ -12,7 +12,7 @@ export default function TabOneScreen() {
   useEffect(() => {
     // Define URL
     const url =
-      "https://raw.githubusercontent.com/cederdorff/race/master/data/users.json";
+      "https://raw.githubusercontent.com/cederdorff/race/master/data/expo-users.json";
     // Fetch data from API
     fetch(url)
       .then(response => response.json())
