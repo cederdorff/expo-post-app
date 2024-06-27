@@ -1,8 +1,9 @@
 import { StyleSheet, FlatList, RefreshControl } from "react-native";
 
 import Post from "@/components/Post";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { tintColorDark } from "@/constants/ThemeVariables";
+import { useFocusEffect } from "expo-router";
 
 export default function Index() {
   const [posts, setPosts] = useState([]);
@@ -11,6 +12,18 @@ export default function Index() {
   useEffect(() => {
     getPosts();
   }, []);
+
+  // Sometimes we want to run side-effects when a screen is focused.
+  // A side effect may involve things like adding an event listener,
+  // fetching data, updating document title, etc.
+  // Read more: https://reactnavigation.org/docs/use-focus-effect/
+  useFocusEffect(
+    // If you don't wrap your effect in React.useCallback,
+    // the effect will run every render if the screen is focused.
+    useCallback(() => {
+      getPosts();
+    }, [])
+  );
 
   async function getPosts() {
     const response = await fetch(

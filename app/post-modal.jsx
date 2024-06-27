@@ -25,6 +25,7 @@ import { useActionSheet } from "@expo/react-native-action-sheet";
 export default function PostModal() {
   const [location, setLocation] = useState({});
   const [image, setImage] = useState("");
+  const [caption, setCaption] = useState("");
 
   const { showActionSheetWithOptions } = useActionSheet();
   const router = useRouter();
@@ -60,6 +61,7 @@ export default function PostModal() {
       `https://api.opencagedata.com/geocode/v1/json?q=${currentLocation.coords.latitude}+${currentLocation.coords.longitude}&key=34c26ae385c341ec835bbc7f3cd4440e`
     );
     const data = await response.json();
+    console.log(data);
     return {
       latitude: currentLocation.coords.latitude,
       longitude: currentLocation.coords.longitude,
@@ -114,6 +116,32 @@ export default function PostModal() {
     );
   }
 
+  async function handleCreatePost() {
+    const createdAt = new Date().getTime(); // Get the current time
+    const post = {
+      caption: caption, // Get the caption from the input / state
+      image: image, // Get the image from the state
+      createdAt: createdAt, // Get the current time
+      location: location, // Get the location from the state
+      uid: "wrliEUxQxHdkH5uQ3a05OKksnt03" // Hardcoded user ID for now
+    };
+    console.log(post);
+
+    // Send the new post to the Firebase Realtime Database
+    const response = await fetch(
+      "https://expo-post-app-default-rtdb.firebaseio.com/posts.json",
+      {
+        method: "POST",
+        body: JSON.stringify(post)
+      }
+    );
+
+    // If the response is OK, go back to the previous screen
+    if (response.ok) {
+      router.back();
+    }
+  }
+
   return (
     <ScrollView style={styles.container}>
       <Stack.Screen
@@ -129,7 +157,7 @@ export default function PostModal() {
           headerRight: () => (
             <Button
               title="Save"
-              onPress={() => router.back()}
+              onPress={handleCreatePost}
               color={Platform.OS === "ios" ? tintColorLight : tintColorDark}
             />
           )
@@ -148,7 +176,12 @@ export default function PostModal() {
         />
       </TouchableOpacity>
       <Text style={styles.label}>Caption</Text>
-      <TextInput style={styles.input} placeholder="Type your caption" />
+      <TextInput
+        style={styles.input}
+        onChangeText={setCaption}
+        value={caption}
+        placeholder="Type your caption"
+      />
       <Text style={styles.label}>City</Text>
       <TextInput
         style={styles.input}
@@ -159,8 +192,9 @@ export default function PostModal() {
             : "Loading your current location..."
         }
         editable={false}
+        backgroundColor="#dddddd"
       />
-      <StyledButton title="Create Post" onPress={() => router.back()} />
+      <StyledButton title="Create Post" onPress={handleCreatePost} />
     </ScrollView>
   );
 }
