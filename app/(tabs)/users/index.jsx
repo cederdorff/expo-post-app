@@ -8,12 +8,25 @@ export default function UsersTab() {
   const [sections, setSections] = useState([]);
 
   useEffect(() => {
-    fetch(
-      "https://raw.githubusercontent.com/cederdorff/race/master/data/expo-users.json"
-    )
-      .then(response => response.json())
-      .then(setUsers);
+    getUsers();
   }, []);
+
+  async function getUsers() {
+    const response = await fetch(
+      "https://expo-post-app-default-rtdb.firebaseio.com/users.json"
+    );
+    const data = await response.json();
+    console.log(data);
+    const arrayOfUsers = Object.keys(data).map(key => {
+      return {
+        id: key,
+        ...data[key]
+      };
+    });
+    arrayOfUsers.sort((userA, userB) => userB.name - userA.name); // sort by name
+    console.log(arrayOfUsers);
+    setUsers(arrayOfUsers);
+  }
 
   useEffect(() => {
     const groupUsersByTitle = users.reduce((titles, user) => {
