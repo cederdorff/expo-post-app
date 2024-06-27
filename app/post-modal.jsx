@@ -8,7 +8,7 @@ import {
 } from "@/constants/ThemeVariables";
 import * as ImagePicker from "expo-image-picker";
 import * as Location from "expo-location";
-import { Stack, useRouter } from "expo-router";
+import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import {
   Button,
@@ -26,9 +26,25 @@ export default function PostModal() {
   const [location, setLocation] = useState({});
   const [image, setImage] = useState("");
   const [caption, setCaption] = useState("");
-
   const { showActionSheetWithOptions } = useActionSheet();
   const router = useRouter();
+  const { id } = useLocalSearchParams();
+  console.log("post id:", id);
+
+  useEffect(() => {
+    if (id) {
+      getPost();
+    }
+  }, [id]);
+
+  async function getPost() {
+    const response = await fetch(
+      `https://expo-post-app-default-rtdb.firebaseio.com/posts/${id}.json`
+    );
+    const data = await response.json();
+    setImage(data.image);
+    setCaption(data.caption);
+  }
 
   useEffect(() => {
     loadLocation();
@@ -142,11 +158,36 @@ export default function PostModal() {
     }
   }
 
+  async function handleUpdatePost() {
+    const post = {
+      caption: caption,
+      image: image
+    };
+    const response = await fetch(
+      `https://expo-post-app-default-rtdb.firebaseio.com/posts/${id}.json`,
+      {
+        method: "PATCH",
+        body: JSON.stringify(post)
+      }
+    );
+    if (response.ok) {
+      router.back();
+    }
+  }
+
+  function handleSave() {
+    if (id) {
+      handleUpdatePost();
+    } else {
+      handleCreatePost();
+    }
+  }
+
   return (
     <ScrollView style={styles.container}>
       <Stack.Screen
         options={{
-          title: "Create Post",
+          title: id ? "Update Post" : "Create Post",
           headerLeft: () => (
             <Button
               title="Cancel"
@@ -156,8 +197,8 @@ export default function PostModal() {
           ),
           headerRight: () => (
             <Button
-              title="Save"
-              onPress={handleCreatePost}
+              title={id ? "Update" : "Create"}
+              onPress={handleSave}
               color={Platform.OS === "ios" ? tintColorLight : tintColorDark}
             />
           )
@@ -194,7 +235,10 @@ export default function PostModal() {
         editable={false}
         backgroundColor="#dddddd"
       />
-      <StyledButton title="Create Post" onPress={handleCreatePost} />
+      <StyledButton
+        title={id ? "Update Post" : "Create Post"}
+        onPress={handleSave}
+      />
     </ScrollView>
   );
 }

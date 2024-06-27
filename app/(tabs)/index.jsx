@@ -43,7 +43,7 @@ export default function Index() {
   }
 
   function renderPost({ item }) {
-    return <Post post={item}></Post>;
+    return <Post post={item} reloadPosts={getPosts} />;
   }
 
   async function handleRefresh() {
