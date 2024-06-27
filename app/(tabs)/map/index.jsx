@@ -10,12 +10,22 @@ export default function MapTab() {
   const [location, setLocation] = useState(null);
 
   useEffect(() => {
-    fetch(
-      "https://raw.githubusercontent.com/cederdorff/race/master/data/expo-posts.json"
-    )
-      .then(response => response.json())
-      .then(setPosts);
+    getPosts();
   }, []);
+
+  async function getPosts() {
+    const response = await fetch(
+      "https://expo-post-app-default-rtdb.firebaseio.com/posts.json"
+    );
+    const data = await response.json();
+    const arrayOfPosts = Object.keys(data).map(key => {
+      return {
+        id: key,
+        ...data[key]
+      };
+    });
+    setPosts(arrayOfPosts);
+  }
 
   useEffect(() => {
     async function requestLocationPersmissions() {
@@ -43,13 +53,7 @@ export default function MapTab() {
         <Marker coordinate={location} title="You are here" pinColor={primary} />
         {posts.map(post => (
           <Marker key={post.id} coordinate={post.location}>
-            <Callout
-              onPress={() =>
-                router.push({
-                  pathname: "map/[id]",
-                  params: { id: post.id, postData: JSON.stringify(post) }
-                })
-              }>
+            <Callout onPress={() => router.push(`map/${post.id}`)}>
               <View style={styles.calloutView}>
                 <Text style={styles.caption}>{post.caption}</Text>
                 <Image source={{ uri: post.image }} style={styles.image} />
