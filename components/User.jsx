@@ -5,13 +5,7 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export default function User({ user }) {
   return (
-    <TouchableOpacity
-      onPress={() =>
-        router.push({
-          pathname: "users/[id]",
-          params: { id: user.id, userData: JSON.stringify(user) }
-        })
-      }>
+    <TouchableOpacity onPress={() => router.push(`users/${user.id}`)}>
       <View style={styles.userContainer}>
         <View style={styles.userImageContainer}>
           <Image style={styles.userImage} source={{ uri: user.image }} />

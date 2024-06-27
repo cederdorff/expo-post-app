@@ -6,19 +6,36 @@ import { ScrollView, StyleSheet, Text, View, Image } from "react-native";
 import Post from "@/components/Post";
 
 export default function UserDetails() {
+  const { id } = useLocalSearchParams();
+  const [user, setUser] = useState({});
   const [posts, setPosts] = useState([]);
-  const { id, userData } = useLocalSearchParams();
-  const user = JSON.parse(userData);
 
   useEffect(() => {
-    fetch(
-      "https://raw.githubusercontent.com/cederdorff/race/master/data/expo-posts.json"
-    )
-      .then(response => response.json())
-      .then(data => setPosts(data.sort((a, b) => b.createdAt - a.createdAt)));
-  }, []);
+    getUser();
+    getPosts();
+  }, [id]);
 
-  const postsByUser = posts.filter(post => post.user.id === id);
+  async function getUser() {
+    const response = await fetch(
+      `https://expo-post-app-default-rtdb.firebaseio.com/users/${id}.json`
+    );
+    const data = await response.json();
+    setUser(data);
+  }
+
+  async function getPosts() {
+    // fetch posts where uid is equal to userId prop
+    const response = await fetch(
+      `https://expo-post-app-default-rtdb.firebaseio.com/posts.json?orderBy="uid"&equalTo="${id}"`
+    );
+    const dataObj = await response.json();
+    const postsArray = Object.keys(dataObj).map(key => ({
+      id: key,
+      ...dataObj[key]
+    })); // from object to array
+    postsArray.sort((postA, postB) => postB.createdAt - postA.createdAt); // sort by timestamp/ createdBy
+    setPosts(postsArray);
+  }
 
   return (
     <ScrollView>
@@ -35,7 +52,7 @@ export default function UserDetails() {
       <View style={styles.textContainer}>
         <Text style={styles.postTitle}>Posts by {user.name}</Text>
       </View>
-      {postsByUser.map(post => (
+      {posts.map(post => (
         <Post key={post.id} post={post} />
       ))}
     </ScrollView>
