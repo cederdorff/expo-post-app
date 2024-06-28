@@ -49,8 +49,12 @@ export default function MapTab() {
 
   return (
     <View style={styles.container}>
-      <MapView style={styles.map} initialRegion={location} region={location}>
-        <Marker coordinate={location} title="You are here" pinColor={primary} />
+      <MapView
+        style={styles.map}
+        initialRegion={location}
+        region={location}
+        showsUserLocation={true}>
+        {/* <Marker coordinate={location} title="You are here" pinColor={primary} /> */}
         {posts.map(post => (
           <Marker key={post.id} coordinate={post.location}>
             <Callout onPress={() => router.push(`map/${post.id}`)}>
