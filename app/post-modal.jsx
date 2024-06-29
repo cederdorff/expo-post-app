@@ -6,6 +6,7 @@ import {
   tintColorDark,
   tintColorLight
 } from "@/constants/ThemeVariables";
+import { useActionSheet } from "@expo/react-native-action-sheet";
 import * as ImagePicker from "expo-image-picker";
 import * as Location from "expo-location";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
@@ -20,7 +21,6 @@ import {
   TextInput,
   TouchableOpacity
 } from "react-native";
-import { useActionSheet } from "@expo/react-native-action-sheet";
 
 export default function PostModal() {
   const [location, setLocation] = useState({});
@@ -29,7 +29,6 @@ export default function PostModal() {
   const { showActionSheetWithOptions } = useActionSheet();
   const router = useRouter();
   const { id } = useLocalSearchParams();
-  console.log("post id:", id);
 
   useEffect(() => {
     if (id) {
@@ -77,7 +76,6 @@ export default function PostModal() {
       `https://api.opencagedata.com/geocode/v1/json?q=${currentLocation.coords.latitude}+${currentLocation.coords.longitude}&key=34c26ae385c341ec835bbc7f3cd4440e`
     );
     const data = await response.json();
-    console.log(data);
     return {
       latitude: currentLocation.coords.latitude,
       longitude: currentLocation.coords.longitude,
@@ -141,7 +139,6 @@ export default function PostModal() {
       location: location, // Get the location from the state
       uid: "wrliEUxQxHdkH5uQ3a05OKksnt03" // Hardcoded user ID for now
     };
-    console.log(post);
 
     // Send the new post to the Firebase Realtime Database
     const response = await fetch(

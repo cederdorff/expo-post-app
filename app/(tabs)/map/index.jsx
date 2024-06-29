@@ -36,7 +36,6 @@ export default function MapTab() {
       }
 
       const currentLocation = await Location.getCurrentPositionAsync();
-      console.log("currentLocation", currentLocation);
       setLocation({
         latitude: currentLocation.coords.latitude,
         longitude: currentLocation.coords.longitude,

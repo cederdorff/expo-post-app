@@ -16,7 +16,6 @@ export default function UsersTab() {
       "https://expo-post-app-default-rtdb.firebaseio.com/users.json"
     );
     const data = await response.json();
-    console.log(data);
     const arrayOfUsers = Object.keys(data).map(key => {
       return {
         id: key,
@@ -24,7 +23,6 @@ export default function UsersTab() {
       };
     });
     arrayOfUsers.sort((userA, userB) => userB.name - userA.name); // sort by name
-    console.log(arrayOfUsers);
     setUsers(arrayOfUsers);
   }
 

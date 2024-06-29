@@ -30,7 +30,6 @@ export default function Index() {
       "https://expo-post-app-default-rtdb.firebaseio.com/posts.json"
     );
     const data = await response.json();
-    console.log(data);
     const arrayOfPosts = Object.keys(data).map(key => {
       return {
         id: key,
@@ -38,7 +37,6 @@ export default function Index() {
       };
     });
     arrayOfPosts.sort((postA, postB) => postB.createdAt - postA.createdAt); // sort by timestamp/ createdBy
-    console.log(arrayOfPosts);
     setPosts(arrayOfPosts);
   }
 

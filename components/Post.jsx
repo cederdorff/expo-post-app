@@ -72,7 +72,6 @@ export default function Post({ post, reloadPosts }) {
       }
     );
     if (response.ok) {
-      console.log("Post successfully deleted");
       reloadPosts();
     }
   }
