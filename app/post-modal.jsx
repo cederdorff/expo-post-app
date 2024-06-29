@@ -1,11 +1,13 @@
 import StyledButton from "@/components/StyledButton";
 import {
   labelFontSize,
+  placeholderTextColor,
   primary,
   secondary,
   tintColorDark,
   tintColorLight
 } from "@/constants/ThemeVariables";
+import { auth } from "@/firebaseConfig";
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import * as ImagePicker from "expo-image-picker";
 import * as Location from "expo-location";
@@ -137,7 +139,7 @@ export default function PostModal() {
       image: image, // Get the image from the state
       createdAt: createdAt, // Get the current time
       location: location, // Get the location from the state
-      uid: "wrliEUxQxHdkH5uQ3a05OKksnt03" // Hardcoded user ID for now
+      uid: auth.currentUser.uid //
     };
 
     // Send the new post to the Firebase Realtime Database
@@ -219,6 +221,7 @@ export default function PostModal() {
         onChangeText={setCaption}
         value={caption}
         placeholder="Type your caption"
+        placeholderTextColor={placeholderTextColor}
       />
       <Text style={styles.label}>City</Text>
       <TextInput
@@ -233,8 +236,9 @@ export default function PostModal() {
         backgroundColor="#dddddd"
       />
       <StyledButton
-        title={id ? "Update Post" : "Create Post"}
+        text={id ? "Update Post" : "Create Post"}
         onPress={handleSave}
+        style="primary"
       />
     </ScrollView>
   );

@@ -1,31 +1,184 @@
-import { StyleSheet, Text, View } from "react-native";
+import StyledButton from "@/components/StyledButton";
+import {
+  borderRadius,
+  labelFontSize,
+  placeholderTextColor,
+  primary,
+  secondary,
+  tintColorLight
+} from "@/constants/ThemeVariables";
+import { auth } from "@/firebaseConfig";
+import * as ImagePicker from "expo-image-picker";
+import { Stack, router } from "expo-router";
+import { signOut } from "firebase/auth";
+import { useEffect, useState } from "react";
+import {
+  Button,
+  Image,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View
+} from "react-native";
 
-export default function ProfileTab() {
+export default function Profile() {
+  const [name, setName] = useState("");
+  const [title, setTitle] = useState("");
+  const [mail, setMail] = useState("");
+  const [image, setImage] = useState("");
+  const { EXPO_PUBLIC_API_URL } = process.env;
+
+  const url = `https://expo-post-app-default-rtdb.firebaseio.com/users/${auth.currentUser?.uid}.json`;
+
+  useEffect(() => {
+    setMail(auth.currentUser.email);
+
+    async function getUser() {
+      const response = await fetch(url);
+      const userData = await response.json();
+
+      if (userData) {
+        // if userData exists set states with values from userData (data from firestore)
+        setName(userData?.name);
+        setTitle(userData?.title);
+        setImage(userData?.image);
+      }
+    }
+    getUser();
+  }, []);
+
+  async function handleSignOut() {
+    await signOut(auth);
+    router.replace("/sign-in");
+  }
+
+  async function chooseImage() {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      base64: true,
+      allowsEditing: true,
+      quality: 0.3
+    });
+
+    if (!result.canceled) {
+      const base64 = "data:image/jpeg;base64," + result.assets[0].base64;
+      setImage(base64);
+    }
+  }
+
+  async function handleSaveUser() {
+    const userToUpdate = { name: name, mail: mail, title, image }; // create an object to hold the user to update properties
+
+    const response = await fetch(url, {
+      method: "PUT",
+      body: JSON.stringify(userToUpdate)
+    });
+    if (response.ok) {
+      const data = await response.json();
+      console.log("User data: ", data);
+    }
+  }
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Profile</Text>
-      <View
-        style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
+    <ScrollView
+      style={styles.container}
+      automaticallyAdjustKeyboardInsets={true}>
+      <Stack.Screen
+        options={{
+          headerRight: () => (
+            <Button
+              title="Sign Out"
+              color={Platform.OS === "ios" ? tintColorLight : primary}
+              onPress={handleSignOut}
+            />
+          )
+        }}
       />
-    </View>
+      <View>
+        <TouchableOpacity onPress={chooseImage} style={styles.imageContainer}>
+          <Image
+            style={styles.image}
+            source={{
+              uri:
+                image ||
+                "https://cederdorff.com/race/images/placeholder-image.webp"
+            }}
+          />
+        </TouchableOpacity>
+        <Text style={styles.label}>Name</Text>
+        <TextInput
+          style={styles.input}
+          onChangeText={setName}
+          value={name}
+          placeholder="Type your name"
+          placeholderTextColor={placeholderTextColor}
+          autoCapitalize="none"
+        />
+
+        <Text style={styles.label}>Title</Text>
+        <TextInput
+          style={styles.input}
+          onChangeText={setTitle}
+          value={title}
+          placeholder="Type your title"
+          placeholderTextColor={placeholderTextColor}
+          autoCapitalize="none"
+        />
+        <Text style={styles.label}>Mail</Text>
+        <TextInput
+          style={styles.input}
+          onChangeText={setMail}
+          value={mail}
+          placeholder="Type your mail"
+          placeholderTextColor={placeholderTextColor}
+          autoCapitalize="none"
+          editable={false}
+          backgroundColor="#dddddd"
+        />
+        <View style={styles.buttonContainer}>
+          <StyledButton text="Save" style="primary" onPress={handleSaveUser} />
+        </View>
+      </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center"
+    padding: 24,
+    backgroundColor: secondary
   },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold"
+  label: {
+    fontSize: labelFontSize,
+    color: primary,
+    marginTop: 30,
+    marginBottom: 5
   },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%"
+  input: {
+    height: 50,
+    padding: 10,
+    backgroundColor: tintColorLight,
+    borderRadius: borderRadius,
+    borderColor: primary,
+    borderWidth: 2
+  },
+  imageContainer: {
+    borderWidth: 3,
+    borderColor: primary,
+    borderRadius: 200,
+    padding: 2,
+    backgroundColor: tintColorLight
+  },
+  image: {
+    aspectRatio: 1,
+    borderRadius: 200
+  },
+  buttonContainer: {
+    marginBottom: 50,
+    marginTop: 20
   }
 });
