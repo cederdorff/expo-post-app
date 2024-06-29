@@ -1,25 +1,57 @@
-import { borderRadius, borderWidth, primary, tintColorLight } from "@/constants/ThemeVariables";
-import { Text, StyleSheet, Pressable } from "react-native";
+import { StyleSheet, TouchableOpacity, Text } from "react-native";
+import {
+  borderRadius,
+  borderWidth,
+  primary,
+  secondary,
+  tintColorDark,
+  tintColorLight
+} from "../constants/ThemeVariables";
 
-export default function StyledButton({ title, onPress }) {
+export default function StyledButton({ text, onPress, style }) {
   return (
-    <Pressable style={styles.container} onPress={onPress}>
-      <Text style={styles.text}>{title}</Text>
-    </Pressable>
+    <TouchableOpacity
+      style={
+        style === "primary" ? styles.primaryButton : styles.secondaryButton
+      }
+      onPress={onPress}>
+      <Text
+        style={
+          style === "primary"
+            ? styles.primaryButtonText
+            : styles.secondaryButtonText
+        }>
+        {text}
+      </Text>
+    </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  primaryButton: {
     backgroundColor: primary,
     padding: 10,
     marginTop: 20,
+    marginBottom: 10,
     borderRadius: borderRadius,
     borderColor: primary,
     borderWidth: borderWidth
   },
-  text: {
+  primaryButtonText: {
     color: tintColorLight,
+    fontSize: 18,
+    textAlign: "center"
+  },
+  secondaryButton: {
+    backgroundColor: secondary,
+    padding: 10,
+    marginTop: 10,
+    borderRadius: borderRadius,
+    borderColor: primary,
+    borderWidth: borderWidth
+  },
+  secondaryButtonText: {
+    color: tintColorDark,
     fontSize: 18,
     textAlign: "center"
   }

@@ -11,6 +11,7 @@ import Avatar from "./Avatar";
 import { Ionicons } from "@expo/vector-icons";
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import { router } from "expo-router";
+import { auth } from "@/firebaseConfig";
 
 export default function Post({ post, reloadPosts }) {
   const { showActionSheetWithOptions } = useActionSheet();
@@ -80,9 +81,11 @@ export default function Post({ post, reloadPosts }) {
     <View style={styles.postContainer}>
       <View style={styles.headerContainer}>
         <Avatar uid={post.uid} />
-        <TouchableOpacity style={styles.dots} onPress={showEditMenu}>
-          <Ionicons name="ellipsis-horizontal" size={28} color={primary} />
-        </TouchableOpacity>
+        {auth.currentUser?.uid === post.uid ? (
+          <TouchableOpacity style={styles.dots} onPress={showEditMenu}>
+            <Ionicons name="ellipsis-horizontal" size={28} color={primary} />
+          </TouchableOpacity>
+        ) : null}
       </View>
       <Image style={styles.image} source={{ uri: post.image }} />
       <Text style={styles.caption}>{post.caption}</Text>

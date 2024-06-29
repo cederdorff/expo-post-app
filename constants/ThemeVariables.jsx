@@ -5,5 +5,15 @@ const tintColorDark = primary;
 const borderRadius = 7;
 const borderWidth = 2;
 const labelFontSize = 20;
+const placeholderTextColor = "#516f7a";
 
-export { primary, secondary, tintColorLight, tintColorDark, borderRadius, borderWidth, labelFontSize };
+export {
+  primary,
+  secondary,
+  tintColorLight,
+  tintColorDark,
+  borderRadius,
+  borderWidth,
+  labelFontSize,
+  placeholderTextColor
+};

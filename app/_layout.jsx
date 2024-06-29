@@ -3,11 +3,13 @@ import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { DefaultTheme, ThemeProvider } from "@react-navigation/native";
 import { useFonts } from "expo-font";
-import { Stack } from "expo-router";
+import { Stack, router } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
 import "react-native-reanimated";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "@/firebaseConfig";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -47,6 +49,15 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
+  useEffect(() => {
+    onAuthStateChanged(auth, user => {
+      if (!user) {
+        // No user is signed in.
+        router.replace("/sign-in");
+      }
+    });
+  });
+
   return (
     <ActionSheetProvider>
       <ThemeProvider value={DefaultTheme}>
