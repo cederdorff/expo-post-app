@@ -35,20 +35,20 @@ export default function Profile() {
 
   useEffect(() => {
     setMail(auth.currentUser.email);
-
-    async function getUser() {
-      const response = await fetch(url);
-      const userData = await response.json();
-
-      if (userData) {
-        // if userData exists set states with values from userData (data from firestore)
-        setName(userData?.name);
-        setTitle(userData?.title);
-        setImage(userData?.image);
-      }
-    }
     getUser();
   }, []);
+
+  async function getUser() {
+    const response = await fetch(url);
+    const userData = await response.json();
+
+    if (userData) {
+      // if userData exists set states with values from userData (data from firestore)
+      setName(userData?.name);
+      setTitle(userData?.title);
+      setImage(userData?.image);
+    }
+  }
 
   async function handleSignOut() {
     await signOut(auth);
