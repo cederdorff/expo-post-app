@@ -29,7 +29,6 @@ export default function Profile() {
   const [title, setTitle] = useState("");
   const [mail, setMail] = useState("");
   const [image, setImage] = useState("");
-  const { EXPO_PUBLIC_API_URL } = process.env;
 
   const url = `https://expo-post-app-default-rtdb.firebaseio.com/users/${auth.currentUser?.uid}.json`;
 

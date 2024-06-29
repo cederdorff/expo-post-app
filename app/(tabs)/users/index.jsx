@@ -1,11 +1,12 @@
 import User from "@/components/User";
 import { primary, secondary } from "@/constants/ThemeVariables";
 import React, { useEffect, useState } from "react";
-import { SectionList, StyleSheet, Text } from "react-native";
+import { RefreshControl, SectionList, StyleSheet, Text } from "react-native";
 
 export default function UsersTab() {
   const [users, setUsers] = useState([]);
   const [sections, setSections] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     getUsers();
@@ -50,12 +51,27 @@ export default function UsersTab() {
     return <Text style={styles.header}>{section.title}</Text>;
   }
 
+  async function handleRefresh() {
+    setRefreshing(true);
+    await getUsers();
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 500);
+  }
+
   return (
     <SectionList
       sections={sections}
       renderItem={renderUser}
       renderSectionHeader={renderHeader}
       keyExtractor={item => item.id}
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={handleRefresh}
+          tintColor={primary}
+        />
+      }
     />
   );
 }
