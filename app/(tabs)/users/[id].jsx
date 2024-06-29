@@ -1,9 +1,8 @@
+import Post from "@/components/Post";
 import { secondary, tintColorDark } from "@/constants/ThemeVariables";
 import { Stack, useLocalSearchParams } from "expo-router";
-import { useEffect } from "react";
-import { useState } from "react";
-import { ScrollView, StyleSheet, Text, View, Image } from "react-native";
-import Post from "@/components/Post";
+import { useEffect, useState } from "react";
+import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 
 export default function UserDetails() {
   const { id } = useLocalSearchParams();

@@ -3,7 +3,6 @@ import { router } from "expo-router";
 import { useEffect, useState } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import MapView, { Callout, Marker } from "react-native-maps";
-import { primary } from "@/constants/ThemeVariables";
 
 export default function MapTab() {
   const [posts, setPosts] = useState([]);

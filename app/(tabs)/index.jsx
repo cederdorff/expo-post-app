@@ -1,9 +1,9 @@
-import { StyleSheet, FlatList, RefreshControl } from "react-native";
+import { FlatList, RefreshControl, StyleSheet } from "react-native";
 
 import Post from "@/components/Post";
-import { useCallback, useEffect, useState } from "react";
 import { tintColorDark } from "@/constants/ThemeVariables";
 import { useFocusEffect } from "expo-router";
+import { useCallback, useEffect, useState } from "react";
 
 export default function Index() {
   const [posts, setPosts] = useState([]);
