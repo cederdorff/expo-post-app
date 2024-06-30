@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "expo-post-app-v2-steps",
-    "slug": "expo-post-app-v2-steps",
+    "name": "expo-post-app",
+    "slug": "expo-post-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -10,17 +10,17 @@
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#264c59"
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "eaaa.race.expo-post-app-v2-steps"
+      "bundleIdentifier": "eaaa.race.expo-post-app"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#264c59"
       }
     },
     "web": {
