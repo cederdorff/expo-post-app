@@ -81,11 +81,11 @@ export default function Post({ post, reloadPosts }) {
     <View style={styles.postContainer}>
       <View style={styles.headerContainer}>
         <Avatar uid={post.uid} />
-        {auth.currentUser?.uid === post.uid ? (
+        {auth.currentUser?.uid === post.uid && (
           <TouchableOpacity style={styles.dots} onPress={showEditMenu}>
             <Ionicons name="ellipsis-horizontal" size={28} color={primary} />
           </TouchableOpacity>
-        ) : null}
+        )}
       </View>
       <Image style={styles.image} source={{ uri: post.image }} />
       <Text style={styles.caption}>{post.caption}</Text>
