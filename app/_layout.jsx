@@ -1,4 +1,5 @@
 import { primary, tintColorLight } from "@/constants/ThemeVariables";
+import { auth } from "@/firebaseConfig";
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { DefaultTheme, ThemeProvider } from "@react-navigation/native";
@@ -6,10 +7,9 @@ import { useFonts } from "expo-font";
 import { Stack, router } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
+import { onAuthStateChanged } from "firebase/auth";
 import { useEffect } from "react";
 import "react-native-reanimated";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "@/firebaseConfig";
 
 export {
   // Catch any errors thrown by the Layout component.

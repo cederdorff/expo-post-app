@@ -19,14 +19,16 @@ export default function SignUp() {
   const auth = getAuth();
 
   function handleSignUp() {
+    // Create user with email and password
     createUserWithEmailAndPassword(auth, mail, password)
       .then(userCredential => {
-        // Signed in
-        const user = userCredential.user;
-        console.log(user);
-        router.replace("/");
+        // User Created and signed in
+        const user = userCredential.user; // User
+        console.log("Signed in as", user.email);
+        router.replace("/"); // Redirect to home
       })
       .catch(error => {
+        // Handle errors
         let errorMessage = error.code.split("/")[1];
         errorMessage = errorMessage.replaceAll("-", " ");
         setMessage(errorMessage);

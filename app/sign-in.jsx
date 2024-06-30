@@ -19,14 +19,16 @@ export default function SignIn() {
   const auth = getAuth();
 
   function handleSignIn() {
+    // Sign in with email and password
     signInWithEmailAndPassword(auth, mail, password)
       .then(userCredential => {
-        // Signed in
-        const user = userCredential.user;
-        console.log(user);
-        router.replace("/");
+        // User is signed in
+        const user = userCredential.user; // User
+        console.log("Signed in as", user.email);
+        router.replace("/"); // Redirect to home
       })
       .catch(error => {
+        // Handle errors
         let errorMessage = error.code.split("/")[1];
         errorMessage = errorMessage.replaceAll("-", " ");
         setMessage(errorMessage);
@@ -34,7 +36,7 @@ export default function SignIn() {
   }
 
   function goToSignUp() {
-    router.push("/sign-up");
+    router.push("/sign-up"); // Redirect to sign up
   }
 
   return (
