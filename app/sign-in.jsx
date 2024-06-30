@@ -6,17 +6,17 @@ import {
   tintColorLight
 } from "@/constants/ThemeVariables";
 import { Stack, router } from "expo-router";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 import { StyleSheet, Text, TextInput, View } from "react-native";
 import StyledButton from "../components/StyledButton";
 import { placeholderTextColor } from "../constants/ThemeVariables";
+import { auth } from "../firebaseConfig"; // Import the auth object from firebase
 
 export default function SignIn() {
   const [mail, setMail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
-  const auth = getAuth();
 
   function handleSignIn() {
     // Sign in with email and password
