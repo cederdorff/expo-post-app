@@ -23,6 +23,7 @@ import {
   TextInput,
   TouchableOpacity
 } from "react-native";
+import Toast from "react-native-root-toast";
 
 export default function PostModal() {
   const [location, setLocation] = useState({});
@@ -153,7 +154,10 @@ export default function PostModal() {
 
     // If the response is OK, go back to the previous screen
     if (response.ok) {
+      Toast.show("Post successfully created");
       router.back();
+    } else {
+      Toast.show("Sorry, something went wrong. Please try again.");
     }
   }
 
@@ -170,7 +174,10 @@ export default function PostModal() {
       }
     );
     if (response.ok) {
+      Toast.show("Post successfully updated");
       router.back();
+    } else {
+      Toast.show("Sorry, something went wrong. Please try again.");
     }
   }
 

@@ -12,6 +12,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import { router } from "expo-router";
 import { auth } from "@/firebaseConfig";
+import Toast from "react-native-root-toast";
 
 export default function Post({ post, reloadPosts }) {
   const { showActionSheetWithOptions } = useActionSheet();
@@ -73,6 +74,7 @@ export default function Post({ post, reloadPosts }) {
       }
     );
     if (response.ok) {
+      Toast.show("Post successfully deleted");
       reloadPosts();
     }
   }

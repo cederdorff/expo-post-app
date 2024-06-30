@@ -10,6 +10,7 @@ import { StatusBar } from "expo-status-bar";
 import { onAuthStateChanged } from "firebase/auth";
 import { useEffect } from "react";
 import "react-native-reanimated";
+import { RootSiblingParent } from "react-native-root-siblings";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -59,27 +60,29 @@ function RootLayoutNav() {
   });
 
   return (
-    <ActionSheetProvider>
-      <ThemeProvider value={DefaultTheme}>
-        <StatusBar style="light" />
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen
-            name="post-modal"
-            options={{
-              presentation: "modal",
-              headerStyle: {
-                backgroundColor: primary,
-                headerTintColor: tintColorLight
-              },
-              headerTintColor: tintColorLight,
-              headerTitleStyle: {
-                fontWeight: "bold"
-              }
-            }}
-          />
-        </Stack>
-      </ThemeProvider>
-    </ActionSheetProvider>
+    <RootSiblingParent>
+      <ActionSheetProvider>
+        <ThemeProvider value={DefaultTheme}>
+          <StatusBar style="light" />
+          <Stack>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen
+              name="post-modal"
+              options={{
+                presentation: "modal",
+                headerStyle: {
+                  backgroundColor: primary,
+                  headerTintColor: tintColorLight
+                },
+                headerTintColor: tintColorLight,
+                headerTitleStyle: {
+                  fontWeight: "bold"
+                }
+              }}
+            />
+          </Stack>
+        </ThemeProvider>
+      </ActionSheetProvider>
+    </RootSiblingParent>
   );
 }

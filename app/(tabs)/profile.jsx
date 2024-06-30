@@ -23,6 +23,7 @@ import {
   TouchableOpacity,
   View
 } from "react-native";
+import Toast from "react-native-root-toast";
 
 export default function Profile() {
   const [name, setName] = useState("");
@@ -84,6 +85,9 @@ export default function Profile() {
     if (response.ok) {
       const data = await response.json();
       console.log("User data: ", data);
+      Toast.show("Your profile has been updated");
+    } else {
+      Toast.show("Sorry, something went wrong");
     }
   }
 

@@ -9,6 +9,7 @@ import { Stack, router } from "expo-router";
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { useState } from "react";
 import { StyleSheet, Text, TextInput, View } from "react-native";
+import Toast from "react-native-root-toast";
 import StyledButton from "../components/StyledButton";
 import { placeholderTextColor } from "../constants/ThemeVariables";
 
@@ -25,6 +26,7 @@ export default function SignUp() {
         // User Created and signed in
         const user = userCredential.user; // User
         console.log("Signed in as", user.email);
+        Toast.show('Account created. Go to "Profile" to update your profile.');
         router.replace("/"); // Redirect to home
       })
       .catch(error => {
