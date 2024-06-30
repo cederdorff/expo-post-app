@@ -190,7 +190,9 @@ export default function PostModal() {
   }
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView
+      style={styles.container}
+      automaticallyAdjustKeyboardInsets={true}>
       <Stack.Screen
         options={{
           title: id ? "Update Post" : "Create Post",
@@ -257,12 +259,9 @@ const styles = StyleSheet.create({
     padding: 24,
     backgroundColor: secondary
   },
-  main: {
-    flex: 1
-  },
   image: {
     aspectRatio: 1,
-    borderRadius: 7,
+    borderRadius: borderRadius,
     borderColor: primary,
     borderWidth: 2
   },
@@ -276,7 +275,7 @@ const styles = StyleSheet.create({
     height: 50,
     padding: 10,
     backgroundColor: tintColorLight,
-    borderRadius: 7,
+    borderRadius: borderRadius,
     borderColor: primary,
     borderWidth: 2
   }
