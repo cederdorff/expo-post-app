@@ -30,11 +30,12 @@ export default function Profile() {
   const [mail, setMail] = useState("");
   const [image, setImage] = useState("");
 
+  // url to fetch (get and put) user data from Firebase Realtime Database
   const url = `https://expo-post-app-default-rtdb.firebaseio.com/users/${auth.currentUser?.uid}.json`;
 
   useEffect(() => {
-    setMail(auth.currentUser.email);
-    getUser();
+    setMail(auth.currentUser.email); // set mail to the current user email
+    getUser(); // fetch user data from Firebase Realtime Database
   }, []);
 
   async function getUser() {
@@ -42,10 +43,10 @@ export default function Profile() {
     const userData = await response.json();
 
     if (userData) {
-      // if userData exists set states with values from userData (data from firestore)
-      setName(userData?.name);
-      setTitle(userData?.title);
-      setImage(userData?.image);
+      // if userData exists set states with values from userData (data from Firebase Realtime Database)
+      setName(userData?.name); // set name to the value of the name property from userData
+      setTitle(userData?.title); // set title to the value of the title property from userData
+      setImage(userData?.image); // set image to the value of the image property from userData
     }
   }
 
@@ -71,10 +72,12 @@ export default function Profile() {
   async function handleSaveUser() {
     const userToUpdate = { name: name, mail: mail, title, image }; // create an object to hold the user to update properties
 
+    // send a PUT request to update user data in Firebase Realtime Database
     const response = await fetch(url, {
       method: "PUT",
       body: JSON.stringify(userToUpdate)
     });
+    // if the response is ok, log the user data
     if (response.ok) {
       const data = await response.json();
       console.log("User data: ", data);
