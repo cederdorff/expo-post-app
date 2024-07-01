@@ -1,8 +1,8 @@
 import * as Location from "expo-location";
-import { router } from "expo-router";
 import { useEffect, useState } from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
-import MapView, { Callout, Marker } from "react-native-maps";
+import { StyleSheet, View } from "react-native";
+import MapView from "react-native-maps";
+import MapMarker from "../../../components/MapMarker";
 
 export default function MapTab() {
   const [posts, setPosts] = useState([]);
@@ -53,14 +53,7 @@ export default function MapTab() {
         showsUserLocation={true}>
         {/* <Marker coordinate={location} title="You are here" pinColor={primary} /> */}
         {posts.map(post => (
-          <Marker key={post.id} coordinate={post.location}>
-            <Callout onPress={() => router.push(`map/${post.id}`)}>
-              <View style={styles.calloutView}>
-                <Text style={styles.caption}>{post.caption}</Text>
-                <Image source={{ uri: post.image }} style={styles.image} />
-              </View>
-            </Callout>
-          </Marker>
+          <MapMarker post={post} key={post.id} />
         ))}
       </MapView>
     </View>
