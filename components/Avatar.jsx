@@ -5,6 +5,7 @@ import { router } from "expo-router";
 
 export default function Avatar({ uid }) {
   const [user, setUser] = useState({});
+  const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
   useEffect(() => {
     if (uid) {
@@ -13,9 +14,7 @@ export default function Avatar({ uid }) {
   }, [uid]);
 
   async function getUser() {
-    const response = await fetch(
-      `https://expo-post-app-default-rtdb.firebaseio.com/users/${uid}.json`
-    );
+    const response = await fetch(`${API_URL}/users/${uid}.json`);
     const data = await response.json();
     setUser(data);
   }

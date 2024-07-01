@@ -6,15 +6,14 @@ import { ScrollView } from "react-native";
 export default function MapDetail() {
   const { id } = useLocalSearchParams();
   const [post, setPost] = useState({});
+  const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
   useEffect(() => {
     getPost();
   }, [id]);
 
   async function getPost() {
-    const response = await fetch(
-      `https://expo-post-app-default-rtdb.firebaseio.com/posts/${id}.json`
-    );
+    const response = await fetch(`${API_URL}/posts/${id}.json`);
     const data = await response.json();
     data.id = id;
     setPost(data);

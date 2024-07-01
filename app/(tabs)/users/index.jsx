@@ -7,15 +7,14 @@ export default function UsersTab() {
   const [users, setUsers] = useState([]);
   const [sections, setSections] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
+  const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
   useEffect(() => {
     getUsers();
   }, []);
 
   async function getUsers() {
-    const response = await fetch(
-      "https://expo-post-app-default-rtdb.firebaseio.com/users.json"
-    );
+    const response = await fetch(`${API_URL}/users.json`);
     const data = await response.json();
     const arrayOfUsers = Object.keys(data).map(key => {
       return {

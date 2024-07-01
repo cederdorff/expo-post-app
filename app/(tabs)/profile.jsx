@@ -30,9 +30,10 @@ export default function Profile() {
   const [title, setTitle] = useState("");
   const [mail, setMail] = useState("");
   const [image, setImage] = useState("");
+  const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
   // url to fetch (get and put) user data from Firebase Realtime Database
-  const url = `https://expo-post-app-default-rtdb.firebaseio.com/users/${auth.currentUser?.uid}.json`;
+  const url = `${API_URL}/users/${auth.currentUser?.uid}.json`;
 
   useEffect(() => {
     setMail(auth.currentUser.email); // set mail to the current user email

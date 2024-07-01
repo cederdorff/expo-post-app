@@ -16,6 +16,7 @@ import Toast from "react-native-root-toast";
 
 export default function Post({ post, reloadPosts }) {
   const { showActionSheetWithOptions } = useActionSheet();
+  const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
   function formatDate(timestamp) {
     const createdAt = new Date(timestamp);
@@ -67,12 +68,9 @@ export default function Post({ post, reloadPosts }) {
   }
 
   async function deletePost() {
-    const response = await fetch(
-      `https://expo-post-app-default-rtdb.firebaseio.com/posts/${post.id}.json`,
-      {
-        method: "DELETE"
-      }
-    );
+    const response = await fetch(`${API_URL}/posts/${post.id}.json`, {
+      method: "DELETE"
+    });
     if (response.ok) {
       Toast.show("Post successfully deleted");
       reloadPosts();

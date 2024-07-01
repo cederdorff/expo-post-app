@@ -8,6 +8,7 @@ import { useCallback, useEffect, useState } from "react";
 export default function Index() {
   const [posts, setPosts] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
+  const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
   useEffect(() => {
     getPosts();
@@ -26,9 +27,7 @@ export default function Index() {
   );
 
   async function getPosts() {
-    const response = await fetch(
-      "https://expo-post-app-default-rtdb.firebaseio.com/posts.json"
-    );
+    const response = await fetch(`${API_URL}/posts.json`);
     const data = await response.json();
     const arrayOfPosts = Object.keys(data).map(key => {
       return {

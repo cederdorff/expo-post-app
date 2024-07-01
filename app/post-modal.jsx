@@ -33,6 +33,8 @@ export default function PostModal() {
   const { showActionSheetWithOptions } = useActionSheet();
   const router = useRouter();
   const { id } = useLocalSearchParams();
+  const API_URL = process.env.EXPO_PUBLIC_API_URL;
+  const OPEN_CAGE_API_KEY = process.env.EXPO_PUBLIC_OPEN_CAGE_API_KEY;
 
   useEffect(() => {
     if (id) {
@@ -41,9 +43,7 @@ export default function PostModal() {
   }, [id]);
 
   async function getPost() {
-    const response = await fetch(
-      `https://expo-post-app-default-rtdb.firebaseio.com/posts/${id}.json`
-    );
+    const response = await fetch(`${API_URL}/posts/${id}.json`);
     const data = await response.json();
     setImage(data.image);
     setCaption(data.caption);
@@ -77,7 +77,7 @@ export default function PostModal() {
   async function getLocation() {
     const currentLocation = await Location.getCurrentPositionAsync();
     const response = await fetch(
-      `https://api.opencagedata.com/geocode/v1/json?q=${currentLocation.coords.latitude}+${currentLocation.coords.longitude}&key=34c26ae385c341ec835bbc7f3cd4440e`
+      `https://api.opencagedata.com/geocode/v1/json?q=${currentLocation.coords.latitude}+${currentLocation.coords.longitude}&key=${OPEN_CAGE_API_KEY}`
     );
     const data = await response.json();
     return {
@@ -145,13 +145,10 @@ export default function PostModal() {
     };
 
     // Send the new post to the Firebase Realtime Database
-    const response = await fetch(
-      "https://expo-post-app-default-rtdb.firebaseio.com/posts.json",
-      {
-        method: "POST",
-        body: JSON.stringify(post)
-      }
-    );
+    const response = await fetch(`${API_URL}/posts.json`, {
+      method: "POST",
+      body: JSON.stringify(post)
+    });
 
     // If the response is OK, go back to the previous screen
     if (response.ok) {
@@ -167,13 +164,10 @@ export default function PostModal() {
       caption: caption,
       image: image
     };
-    const response = await fetch(
-      `https://expo-post-app-default-rtdb.firebaseio.com/posts/${id}.json`,
-      {
-        method: "PATCH",
-        body: JSON.stringify(post)
-      }
-    );
+    const response = await fetch(`${API_URL}/posts/${id}.json`, {
+      method: "PATCH",
+      body: JSON.stringify(post)
+    });
     if (response.ok) {
       Toast.show("Post successfully updated");
       router.back();
