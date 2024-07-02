@@ -15,7 +15,6 @@ import * as Location from "expo-location";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import {
-  ActivityIndicator,
   Button,
   Image,
   Platform,
@@ -23,10 +22,10 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  TouchableOpacity,
-  View
+  TouchableOpacity
 } from "react-native";
 import Toast from "react-native-root-toast";
+import Loader from "@/components/Loader";
 
 export default function PostModal() {
   const [location, setLocation] = useState({});
@@ -262,11 +261,7 @@ export default function PostModal() {
           style="primary"
         />
       </ScrollView>
-      {loading && (
-        <View style={styles.overlay}>
-          <ActivityIndicator size="large" color={primary} />
-        </View>
-      )}
+      <Loader show={loading} />
     </>
   );
 }
@@ -296,15 +291,5 @@ const styles = StyleSheet.create({
     borderRadius: borderRadius,
     borderColor: primary,
     borderWidth: 2
-  },
-  overlay: {
-    position: "absolute",
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.3)" // Semi-transparent background
   }
 });

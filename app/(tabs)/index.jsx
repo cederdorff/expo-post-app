@@ -1,6 +1,7 @@
 import { FlatList, RefreshControl, StyleSheet } from "react-native";
 
 import Post from "@/components/Post";
+import Loader from "@/components/Loader";
 import { tintColorDark } from "@/constants/ThemeVariables";
 import { useFocusEffect } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
@@ -9,6 +10,7 @@ export default function Index() {
   const [posts, setPosts] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
   const API_URL = process.env.EXPO_PUBLIC_API_URL;
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     getPosts();
@@ -27,6 +29,7 @@ export default function Index() {
   );
 
   async function getPosts() {
+    setLoading(true);
     const response = await fetch(`${API_URL}/posts.json`);
     const data = await response.json();
     const arrayOfPosts = Object.keys(data).map(key => {
@@ -37,6 +40,7 @@ export default function Index() {
     });
     arrayOfPosts.sort((postA, postB) => postB.createdAt - postA.createdAt); // sort by timestamp/ createdBy
     setPosts(arrayOfPosts);
+    setLoading(false);
   }
 
   function renderPost({ item }) {
@@ -52,19 +56,22 @@ export default function Index() {
   }
 
   return (
-    <FlatList
-      style={styles.container}
-      data={posts}
-      renderItem={renderPost}
-      keyExtractor={post => post.id}
-      refreshControl={
-        <RefreshControl
-          refreshing={refreshing}
-          onRefresh={handleRefresh}
-          tintColor={tintColorDark}
-        />
-      }
-    />
+    <>
+      <FlatList
+        style={styles.container}
+        data={posts}
+        renderItem={renderPost}
+        keyExtractor={post => post.id}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={handleRefresh}
+            tintColor={tintColorDark}
+          />
+        }
+      />
+      <Loader show={loading} />
+    </>
   );
 }
 

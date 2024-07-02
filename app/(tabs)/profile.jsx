@@ -24,6 +24,7 @@ import {
   View
 } from "react-native";
 import Toast from "react-native-root-toast";
+import Loader from "../../components/Loader";
 
 export default function Profile() {
   const [name, setName] = useState("");
@@ -31,6 +32,7 @@ export default function Profile() {
   const [mail, setMail] = useState("");
   const [image, setImage] = useState("");
   const API_URL = process.env.EXPO_PUBLIC_API_URL;
+  const [loading, setLoading] = useState(false);
 
   // url to fetch (get and put) user data from Firebase Realtime Database
   const url = `${API_URL}/users/${auth.currentUser?.uid}.json`;
@@ -41,6 +43,7 @@ export default function Profile() {
   }, []);
 
   async function getUser() {
+    setLoading(true);
     const response = await fetch(url);
     const userData = await response.json();
 
@@ -50,6 +53,7 @@ export default function Profile() {
       setTitle(userData?.title); // set title to the value of the title property from userData
       setImage(userData?.image); // set image to the value of the image property from userData
     }
+    setLoading(false);
   }
 
   // sign out the user and redirect to the sign-in screen
@@ -75,6 +79,7 @@ export default function Profile() {
   }
 
   async function handleSaveUser() {
+    setLoading(true);
     const userToUpdate = { name: name, mail: mail, title, image }; // create an object to hold the user to update properties
 
     const idToken = await auth.currentUser.getIdToken(); // get the user id token
@@ -91,69 +96,77 @@ export default function Profile() {
     } else {
       Toast.show("Sorry, something went wrong");
     }
+    setLoading(false);
   }
 
   return (
-    <ScrollView
-      style={styles.container}
-      automaticallyAdjustKeyboardInsets={true}>
-      <Stack.Screen
-        options={{
-          headerRight: () => (
-            <Button
-              title="Sign Out"
-              color={Platform.OS === "ios" ? tintColorLight : primary}
-              onPress={handleSignOut}
+    <>
+      <ScrollView
+        style={styles.container}
+        automaticallyAdjustKeyboardInsets={true}>
+        <Stack.Screen
+          options={{
+            headerRight: () => (
+              <Button
+                title="Sign Out"
+                color={Platform.OS === "ios" ? tintColorLight : primary}
+                onPress={handleSignOut}
+              />
+            )
+          }}
+        />
+        <View>
+          <TouchableOpacity onPress={chooseImage} style={styles.imageContainer}>
+            <Image
+              style={styles.image}
+              source={{
+                uri:
+                  image ||
+                  "https://cederdorff.com/race/images/placeholder-image.webp"
+              }}
             />
-          )
-        }}
-      />
-      <View>
-        <TouchableOpacity onPress={chooseImage} style={styles.imageContainer}>
-          <Image
-            style={styles.image}
-            source={{
-              uri:
-                image ||
-                "https://cederdorff.com/race/images/placeholder-image.webp"
-            }}
+          </TouchableOpacity>
+          <Text style={styles.label}>Name</Text>
+          <TextInput
+            style={styles.input}
+            onChangeText={setName}
+            value={name}
+            placeholder="Type your name"
+            placeholderTextColor={placeholderTextColor}
+            autoCapitalize="none"
           />
-        </TouchableOpacity>
-        <Text style={styles.label}>Name</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={setName}
-          value={name}
-          placeholder="Type your name"
-          placeholderTextColor={placeholderTextColor}
-          autoCapitalize="none"
-        />
 
-        <Text style={styles.label}>Title</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={setTitle}
-          value={title}
-          placeholder="Type your title"
-          placeholderTextColor={placeholderTextColor}
-          autoCapitalize="none"
-        />
-        <Text style={styles.label}>Mail</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={setMail}
-          value={mail}
-          placeholder="Type your mail"
-          placeholderTextColor={placeholderTextColor}
-          autoCapitalize="none"
-          editable={false}
-          backgroundColor="#dddddd"
-        />
-        <View style={styles.buttonContainer}>
-          <StyledButton text="Save" style="primary" onPress={handleSaveUser} />
+          <Text style={styles.label}>Title</Text>
+          <TextInput
+            style={styles.input}
+            onChangeText={setTitle}
+            value={title}
+            placeholder="Type your title"
+            placeholderTextColor={placeholderTextColor}
+            autoCapitalize="none"
+          />
+          <Text style={styles.label}>Mail</Text>
+          <TextInput
+            style={styles.input}
+            onChangeText={setMail}
+            value={mail}
+            placeholder="Type your mail"
+            placeholderTextColor={placeholderTextColor}
+            autoCapitalize="none"
+            editable={false}
+            backgroundColor="#dddddd"
+          />
+          <View style={styles.buttonContainer}>
+            <StyledButton
+              text="Save"
+              style="primary"
+              onPress={handleSaveUser}
+            />
+          </View>
         </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+      <Loader show={loading} />
+    </>
   );
 }
 
