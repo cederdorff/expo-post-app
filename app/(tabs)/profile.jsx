@@ -77,8 +77,9 @@ export default function Profile() {
   async function handleSaveUser() {
     const userToUpdate = { name: name, mail: mail, title, image }; // create an object to hold the user to update properties
 
+    const idToken = await auth.currentUser.getIdToken(); // get the user id token
     // send a PUT request to update user data in Firebase Realtime Database
-    const response = await fetch(url, {
+    const response = await fetch(`${url}?auth=${idToken}`, {
       method: "PUT",
       body: JSON.stringify(userToUpdate)
     });

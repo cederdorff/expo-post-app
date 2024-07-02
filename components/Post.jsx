@@ -68,9 +68,13 @@ export default function Post({ post, reloadPosts }) {
   }
 
   async function deletePost() {
-    const response = await fetch(`${API_URL}/posts/${post.id}.json`, {
-      method: "DELETE"
-    });
+    const idToken = await auth.currentUser.getIdToken();
+    const response = await fetch(
+      `${API_URL}/posts/${post.id}.json?auth=${idToken}`,
+      {
+        method: "DELETE"
+      }
+    );
     if (response.ok) {
       Toast.show("Post successfully deleted");
       reloadPosts();
