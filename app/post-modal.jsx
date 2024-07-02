@@ -15,6 +15,7 @@ import * as Location from "expo-location";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import {
+  ActivityIndicator,
   Button,
   Image,
   Platform,
@@ -22,7 +23,8 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  TouchableOpacity
+  TouchableOpacity,
+  View
 } from "react-native";
 import Toast from "react-native-root-toast";
 
@@ -35,6 +37,7 @@ export default function PostModal() {
   const { id } = useLocalSearchParams();
   const API_URL = process.env.EXPO_PUBLIC_API_URL;
   const OPEN_CAGE_API_KEY = process.env.EXPO_PUBLIC_OPEN_CAGE_API_KEY;
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -43,10 +46,12 @@ export default function PostModal() {
   }, [id]);
 
   async function getPost() {
+    setLoading(true);
     const response = await fetch(`${API_URL}/posts/${id}.json`);
     const data = await response.json();
     setImage(data.image);
     setCaption(data.caption);
+    setLoading(false);
   }
 
   useEffect(() => {
@@ -185,75 +190,84 @@ export default function PostModal() {
     }
   }
 
-  function handleSave() {
+  async function handleSave() {
+    setLoading(true);
     if (id) {
-      handleUpdatePost();
+      await handleUpdatePost();
     } else {
-      handleCreatePost();
+      await handleCreatePost();
     }
+    setLoading(false);
   }
 
   return (
-    <ScrollView
-      style={styles.container}
-      automaticallyAdjustKeyboardInsets={true}>
-      <Stack.Screen
-        options={{
-          title: id ? "Update Post" : "Create Post",
-          headerLeft: () => (
-            <Button
-              title="Cancel"
-              onPress={() => router.back()}
-              color={Platform.OS === "ios" ? tintColorLight : tintColorDark}
-            />
-          ),
-          headerRight: () => (
-            <Button
-              title={id ? "Update" : "Create"}
-              onPress={handleSave}
-              color={Platform.OS === "ios" ? tintColorLight : tintColorDark}
-            />
-          )
-        }}
-      />
-
-      <Text style={styles.label}>Image</Text>
-      <TouchableOpacity onPress={chooseCameraOrLibrary}>
-        <Image
-          style={styles.image}
-          source={{
-            uri:
-              image ||
-              "https://cederdorff.com/race/images/placeholder-image.webp"
+    <>
+      <ScrollView
+        style={styles.container}
+        automaticallyAdjustKeyboardInsets={true}>
+        <Stack.Screen
+          options={{
+            title: id ? "Update Post" : "Create Post",
+            headerLeft: () => (
+              <Button
+                title="Cancel"
+                onPress={() => router.back()}
+                color={Platform.OS === "ios" ? tintColorLight : tintColorDark}
+              />
+            ),
+            headerRight: () => (
+              <Button
+                title={id ? "Update" : "Create"}
+                onPress={handleSave}
+                color={Platform.OS === "ios" ? tintColorLight : tintColorDark}
+              />
+            )
           }}
         />
-      </TouchableOpacity>
-      <Text style={styles.label}>Caption</Text>
-      <TextInput
-        style={styles.input}
-        onChangeText={setCaption}
-        value={caption}
-        placeholder="Type your caption"
-        placeholderTextColor={placeholderTextColor}
-      />
-      <Text style={styles.label}>City</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Type your city"
-        value={
-          location.city
-            ? `${location.city}, ${location.country}`
-            : "Loading your current location..."
-        }
-        editable={false}
-        backgroundColor="#dddddd"
-      />
-      <StyledButton
-        text={id ? "Update Post" : "Create Post"}
-        onPress={handleSave}
-        style="primary"
-      />
-    </ScrollView>
+
+        <Text style={styles.label}>Image</Text>
+        <TouchableOpacity onPress={chooseCameraOrLibrary}>
+          <Image
+            style={styles.image}
+            source={{
+              uri:
+                image ||
+                "https://cederdorff.com/race/images/placeholder-image.webp"
+            }}
+          />
+        </TouchableOpacity>
+        <Text style={styles.label}>Caption</Text>
+        <TextInput
+          style={styles.input}
+          onChangeText={setCaption}
+          value={caption}
+          placeholder="Type your caption"
+          placeholderTextColor={placeholderTextColor}
+        />
+        <Text style={styles.label}>City</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Type your city"
+          value={
+            location.city
+              ? `${location.city}, ${location.country}`
+              : "Loading your current location..."
+          }
+          editable={false}
+          backgroundColor="#dddddd"
+        />
+        <StyledButton
+          text={id ? "Update Post" : "Create Post"}
+          onPress={handleSave}
+          style="primary"
+        />
+      </ScrollView>
+      {loading && (
+        <View style={styles.overlay}>
+          <ActivityIndicator size="large" color={primary} />
+        </View>
+      )}
+    </>
   );
 }
 
@@ -282,5 +296,15 @@ const styles = StyleSheet.create({
     borderRadius: borderRadius,
     borderColor: primary,
     borderWidth: 2
+  },
+  overlay: {
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.3)" // Semi-transparent background
   }
 });
