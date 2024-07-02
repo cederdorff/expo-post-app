@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "expo-post-app",
-    "slug": "expo-post-app",
+    "name": "expo-post-app-v2-steps",
+    "slug": "expo-post-app-v2-steps",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
