@@ -144,7 +144,7 @@ export default function PostModal() {
       uid: auth.currentUser.uid //
     };
 
-    const idToken = await auth.currentUser.getIdToken();
+    const idToken = await auth.currentUser.getIdToken(); // Get the ID token from the current user
 
     // Send the new post to the Firebase Realtime Database
     const response = await fetch(`${API_URL}/posts.json?auth=${idToken}`, {
