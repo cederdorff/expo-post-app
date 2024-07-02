@@ -8,19 +8,22 @@ import {
 import { Stack, router } from "expo-router";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import { StyleSheet, Text, TextInput, ScrollView } from "react-native";
 import StyledButton from "../components/StyledButton";
 import { placeholderTextColor } from "../constants/ThemeVariables";
 import { auth } from "../firebaseConfig"; // Import the auth object from firebase
+import Loader from "../components/Loader";
 
 export default function SignIn() {
   const [mail, setMail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  function handleSignIn() {
+  async function handleSignIn() {
+    setLoading(true);
     // Sign in with email and password
-    signInWithEmailAndPassword(auth, mail, password)
+    await signInWithEmailAndPassword(auth, mail, password)
       .then(userCredential => {
         // User is signed in
         const user = userCredential.user; // User
@@ -33,6 +36,7 @@ export default function SignIn() {
         errorMessage = errorMessage.replaceAll("-", " ");
         setMessage(errorMessage);
       });
+    setLoading(false);
   }
 
   function goToSignUp() {
@@ -40,42 +44,47 @@ export default function SignIn() {
   }
 
   return (
-    <View style={styles.container}>
-      <Stack.Screen
-        options={{
-          title: "Sign In",
-          headerTintColor: tintColorLight,
-          headerStyle: {
-            backgroundColor: primary
-          }
-        }}
-      />
-      <Text style={styles.label}>Mail</Text>
-      <TextInput
-        style={styles.input}
-        onChangeText={setMail}
-        value={mail}
-        placeholder="Type your mail"
-        placeholderTextColor={placeholderTextColor}
-        autoCapitalize="none"
-      />
-      <Text style={styles.label}>Password</Text>
-      <TextInput
-        style={styles.input}
-        onChangeText={setPassword}
-        value={password}
-        secureTextEntry={true}
-        placeholder="Type your password"
-        placeholderTextColor={placeholderTextColor}
-      />
-      <Text style={styles.errorMessage}>{message}</Text>
-      <StyledButton text="Sign In" onPress={handleSignIn} style="primary" />
-      <StyledButton
-        text="Create New Account"
-        onPress={goToSignUp}
-        style="secondary"
-      />
-    </View>
+    <>
+      <ScrollView
+        style={styles.container}
+        automaticallyAdjustKeyboardInsets={true}>
+        <Stack.Screen
+          options={{
+            title: "Sign In",
+            headerTintColor: tintColorLight,
+            headerStyle: {
+              backgroundColor: primary
+            }
+          }}
+        />
+        <Text style={styles.label}>Mail</Text>
+        <TextInput
+          style={styles.input}
+          onChangeText={setMail}
+          value={mail}
+          placeholder="Type your mail"
+          placeholderTextColor={placeholderTextColor}
+          autoCapitalize="none"
+        />
+        <Text style={styles.label}>Password</Text>
+        <TextInput
+          style={styles.input}
+          onChangeText={setPassword}
+          value={password}
+          secureTextEntry={true}
+          placeholder="Type your password"
+          placeholderTextColor={placeholderTextColor}
+        />
+        <Text style={styles.errorMessage}>{message}</Text>
+        <StyledButton text="Sign In" onPress={handleSignIn} style="primary" />
+        <StyledButton
+          text="Create New Account"
+          onPress={goToSignUp}
+          style="secondary"
+        />
+      </ScrollView>
+      <Loader show={loading} />
+    </>
   );
 }
 

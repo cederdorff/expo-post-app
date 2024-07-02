@@ -2,18 +2,21 @@ import User from "@/components/User";
 import { primary, secondary } from "@/constants/ThemeVariables";
 import React, { useEffect, useState } from "react";
 import { RefreshControl, SectionList, StyleSheet, Text } from "react-native";
+import Loader from "@/components/Loader";
 
 export default function UsersTab() {
   const [users, setUsers] = useState([]);
   const [sections, setSections] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
   const API_URL = process.env.EXPO_PUBLIC_API_URL;
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     getUsers();
   }, []);
 
   async function getUsers() {
+    setLoading(true);
     const response = await fetch(`${API_URL}/users.json`);
     const data = await response.json();
     const arrayOfUsers = Object.keys(data).map(key => {
@@ -24,6 +27,7 @@ export default function UsersTab() {
     });
     arrayOfUsers.sort((userA, userB) => userB.name - userA.name); // sort by name
     setUsers(arrayOfUsers);
+    setLoading(false);
   }
 
   useEffect(() => {
@@ -59,19 +63,22 @@ export default function UsersTab() {
   }
 
   return (
-    <SectionList
-      sections={sections}
-      renderItem={renderUser}
-      renderSectionHeader={renderHeader}
-      keyExtractor={item => item.id}
-      refreshControl={
-        <RefreshControl
-          refreshing={refreshing}
-          onRefresh={handleRefresh}
-          tintColor={primary}
-        />
-      }
-    />
+    <>
+      <SectionList
+        sections={sections}
+        renderItem={renderUser}
+        renderSectionHeader={renderHeader}
+        keyExtractor={item => item.id}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={handleRefresh}
+            tintColor={primary}
+          />
+        }
+      />
+      <Loader show={loading} />
+    </>
   );
 }
 
