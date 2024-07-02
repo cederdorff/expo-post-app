@@ -1,57 +1,75 @@
-import { StyleSheet } from "react-native";
+import { FlatList, RefreshControl, StyleSheet } from "react-native";
 
-import { Text, View } from "@/components/Themed";
-import Welcome from "@/components/Welcome";
-import { useEffect, useState } from "react";
+import Post from "@/components/Post";
+import { tintColorDark } from "@/constants/ThemeVariables";
+import { useFocusEffect } from "expo-router";
+import { useCallback, useEffect, useState } from "react";
 
-export default function TabOneScreen() {
-  const [users, setUsers] = useState([]);
-  console.log("users:", users);
-  console.log("Hello from my first React Native app 🎉");
+export default function Index() {
+  const [posts, setPosts] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
+  const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
   useEffect(() => {
-    // Define URL
-    const url =
-      "https://raw.githubusercontent.com/cederdorff/race/master/data/users.json";
-    // Fetch data from API
-    fetch(url)
-      .then(response => response.json())
-      .then(data => {
-        setUsers(data);
-        console.log("users:", users);
-      });
+    getPosts();
   }, []);
 
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <View
-        style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
-      />
+  // Sometimes we want to run side-effects when a screen is focused.
+  // A side effect may involve things like adding an event listener,
+  // fetching data, updating document title, etc.
+  // Read more: https://reactnavigation.org/docs/use-focus-effect/
+  useFocusEffect(
+    // If you don't wrap your effect in React.useCallback,
+    // the effect will run every render if the screen is focused.
+    useCallback(() => {
+      getPosts();
+    }, [])
+  );
 
-      {users.map(user => (
-        <Welcome key={user.id} name={user.name} mail={user.mail} />
-      ))}
-    </View>
+  async function getPosts() {
+    const response = await fetch(`${API_URL}/posts.json`);
+    const data = await response.json();
+    const arrayOfPosts = Object.keys(data).map(key => {
+      return {
+        id: key,
+        ...data[key]
+      };
+    });
+    arrayOfPosts.sort((postA, postB) => postB.createdAt - postA.createdAt); // sort by timestamp/ createdBy
+    setPosts(arrayOfPosts);
+  }
+
+  function renderPost({ item }) {
+    return <Post post={item} reloadPosts={getPosts} />;
+  }
+
+  async function handleRefresh() {
+    setRefreshing(true);
+    await getPosts();
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 500);
+  }
+
+  return (
+    <FlatList
+      style={styles.container}
+      data={posts}
+      renderItem={renderPost}
+      keyExtractor={post => post.id}
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={handleRefresh}
+          tintColor={tintColorDark}
+        />
+      }
+    />
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "cadetblue"
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold"
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%"
+    flex: 1
   }
 });
