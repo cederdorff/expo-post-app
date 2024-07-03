@@ -55,7 +55,7 @@ function RootLayoutNav() {
         router.replace("/sign-in");
       }
     });
-  });
+  }, []);
 
   return (
     <RootSiblingParent>
