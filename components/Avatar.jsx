@@ -23,11 +23,11 @@ export default function Avatar({ uid }) {
     <TouchableOpacity onPress={() => router.push(`/users/${uid}`)}>
       <View style={styles.avatarContainer}>
         <View style={styles.avatarImageContainer}>
-          <Image style={styles.avatarImage} source={{ uri: user.image }} />
+          <Image style={styles.avatarImage} source={{ uri: user?.image }} />
         </View>
         <View>
-          <Text style={styles.avatarName}>{user.name}</Text>
-          <Text style={styles.avatarTitle}>{user.title}</Text>
+          <Text style={styles.avatarName}>{user?.name}</Text>
+          <Text style={styles.avatarTitle}>{user?.title}</Text>
         </View>
       </View>
     </TouchableOpacity>
