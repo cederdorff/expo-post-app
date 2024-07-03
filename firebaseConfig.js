@@ -4,13 +4,14 @@ import { getReactNativePersistence, initializeAuth } from "firebase/auth";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBKWdwc3CdNuRaYgDpygI2Jj-0FQbzV9WI",
-  authDomain: "expo-post-app.firebaseapp.com",
-  databaseURL: "https://expo-post-app-default-rtdb.firebaseio.com",
-  projectId: "expo-post-app",
-  storageBucket: "expo-post-app.appspot.com",
-  messagingSenderId: "585666076188",
-  appId: "1:585666076188:web:2d11018cf35a20aaa3c9d9"
+  apiKey: "AIzaSyCQWYzixavQ9-7Y_zU_BrlmEJrLPdSrR1Q",
+  authDomain: "expo-post-app-auth.firebaseapp.com",
+  databaseURL:
+    "https://expo-post-app-auth-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "expo-post-app-auth",
+  storageBucket: "expo-post-app-auth.appspot.com",
+  messagingSenderId: "305466294875",
+  appId: "1:305466294875:web:e2db4bff4b75bbcccc357e"
 };
 
 const app = initializeApp(firebaseConfig);
